@@ -228,6 +228,7 @@
     <ClInclude Include="..\..\include\DouUI\DouRender.h" />
     <ClInclude Include="..\..\include\DouUI\DouUI.h" />
     <ClInclude Include="..\..\include\DouUI\DouUtils.h" />
+    <ClInclude Include="..\..\include\DouUI\DouZipUtils.h" />
     <ClInclude Include="..\..\include\DouUI\include\stb_image.h" />
     <ClInclude Include="..\..\include\DouUI\include\XUnzip.h" />
     <ClInclude Include="AboutDlg.h" />

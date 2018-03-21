@@ -36,7 +36,7 @@ public:
 		for (iterImage = m_ImageObjectMap.begin(); iterImage != m_ImageObjectMap.end(); iterImage++)
 		{
 			CDouImageObject* pImageObject = iterImage->second;
-			if ((NULL != pImageObject) && (pImageObject->IsControlVisible()) /*&& (pImageObject->GetImageResID()) */&& !pImageObject->GetControlRect().IsRectEmpty())
+			if (NULL != pImageObject)
 			{
 				vecZorder.push_back(make_pair(iterImage->first, pImageObject->GetZOrder()));
 			}

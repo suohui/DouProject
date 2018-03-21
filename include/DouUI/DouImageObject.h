@@ -18,7 +18,11 @@ public:
 
 	void Draw(HDC hdc)
 	{
-		CDouRender::DrawImage(hdc, m_rcControl, gBmpManager.GetBmpSrcInfo(m_strID), FALSE);
+		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(m_strID);
+		if (m_bVisible && !m_rcControl.IsRectEmpty() && (NULL != pBmpSrcInfo))
+		{
+			CDouRender::DrawImage(hdc, m_rcControl, pBmpSrcInfo, FALSE);
+		}
 	}
 private:
 	String m_strID;

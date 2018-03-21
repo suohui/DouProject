@@ -1,7 +1,7 @@
 #ifndef __DOUBITMAPMANAGER_H__
 #define __DOUBITMAPMANAGER_H__
 #pragma once
-
+class CDouZipUtils;
 //图
 enum DouResIDType
 {
@@ -68,18 +68,19 @@ private:
 
 		m_BmpFileInfoMap.clear();
 		m_BmpSrcInfoMap.clear();
+		CDouZipUtils zipUtils(CDouUtils::GetImageZipPath());
 		for (size_t iIndex = 0; iIndex < sizeof(arrBmpResInfo) / sizeof(arrBmpResInfo[0]); iIndex++)
 		{
 			DouBitmapFileInfo* pBmpFileInfo = NULL;
 			switch (arrBmpResInfo[iIndex].enumIDType)
 			{
 			case DouResIDType::Bitmap:
-				pBmpFileInfo = FromZip(arrBmpResInfo[iIndex].strPathOrOwner, arrBmpResInfo[iIndex].enumBmpType);
+				pBmpFileInfo = zipUtils.GetBitmapFileInfo(arrBmpResInfo[iIndex].strPathOrOwner, arrBmpResInfo[iIndex].enumBmpType);
 				m_BmpFileInfoMap[arrBmpResInfo[iIndex].strID] = pBmpFileInfo;
 				AddToBmpSrcInfoMap(arrBmpResInfo[iIndex].strID, pBmpFileInfo);//解析文件，并加入ID列表
 				break;
 			case DouResIDType::ItemList:
-				pBmpFileInfo = FromZip(arrBmpResInfo[iIndex].strPathOrOwner, arrBmpResInfo[iIndex].enumBmpType);
+				pBmpFileInfo = zipUtils.GetBitmapFileInfo(arrBmpResInfo[iIndex].strPathOrOwner, arrBmpResInfo[iIndex].enumBmpType);
 				m_BmpFileInfoMap[arrBmpResInfo[iIndex].strID] = pBmpFileInfo;//只解析文件，不加入ID列表
 				break;
 			case DouResIDType::SubItem:
@@ -105,7 +106,7 @@ public:
 		static CDouBitmapManager pInstance;
 		return pInstance;
 	}
-	DouBitmapFileInfo * FromFile(String strFileName, DouBitmapType enumBmpType)
+	static DouBitmapFileInfo * FromFile(String strFileName, DouBitmapType enumBmpType)
 	{
 		HANDLE hFile = ::CreateFile(strFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hFile == INVALID_HANDLE_VALUE)
@@ -127,59 +128,10 @@ public:
 			pData = NULL;
 			return NULL;
 		}
-		return FromMemory(pData, dwSize, enumBmpType);
+		return CDouBitmapManager::FromMemory(pData, dwSize, enumBmpType);
 	}
 
-	void FreeImage(DouBitmapFileInfo *pBmpFileInfo)
-	{
-		if (NULL != pBmpFileInfo)
-		{
-			::DeleteObject(pBmpFileInfo->hBitmap);
-			pBmpFileInfo->hBitmap = NULL;
-			delete pBmpFileInfo;
-			pBmpFileInfo = NULL;
-		}
-	}
-
-	DouBitmapSrcInfo* GetBmpSrcInfo(String strID)
-	{
-		return m_BmpSrcInfoMap[strID];
-	}
-private:
-	DouBitmapFileInfo * FromZip(String strFileName, DouBitmapType enumBmpType)
-	{
-		HZIP hz = OpenZip((void *)CDouUtils::GetImageZipPath().c_str(), 0, 2);	//ZIP_FILENAME
-		if (hz == NULL)
-		{
-			return NULL;
-		}
-		ZIPENTRY ze;
-		int i;
-		ZRESULT zRet = FindZipItem(hz, strFileName.c_str(), true, &i, &ze);
-		if (zRet == ZR_NOTFOUND)
-		{
-			CloseZip(hz);
-			return NULL;
-		}
-		DWORD dwSize = ze.unc_size;
-		if (dwSize == 0)
-		{
-			return NULL;
-		}
-		LPBYTE pData = new BYTE[dwSize];
-		int iRet = UnzipItem(hz, i, pData, dwSize, 3);
-		if (iRet != 0x00000000 && iRet != 0x00000600)
-		{
-			delete[] pData;
-			pData = NULL;
-			CloseZip(hz);
-			return NULL;
-		}
-		CloseZip(hz);
-		return FromMemory(pData, dwSize, enumBmpType);
-	}
-
-	DouBitmapFileInfo * FromMemory(LPBYTE pData, DWORD dwSize, DouBitmapType enumBmpType)
+	static DouBitmapFileInfo * FromMemory(LPBYTE pData, DWORD dwSize, DouBitmapType enumBmpType)
 	{
 		int x = 1, y = 1, n;
 		LPBYTE pImage = stbi_load_from_memory(pData, dwSize, &x, &y, &n, 4);
@@ -237,13 +189,64 @@ private:
 		return pBmpFileInfo;
 	}
 
+	static void FreeImage(DouBitmapFileInfo *pBmpFileInfo)
+	{
+		if (NULL != pBmpFileInfo)
+		{
+			::DeleteObject(pBmpFileInfo->hBitmap);
+			pBmpFileInfo->hBitmap = NULL;
+			delete pBmpFileInfo;
+			pBmpFileInfo = NULL;
+		}
+	}
+
+	DouBitmapSrcInfo* GetBmpSrcInfo(String strID)
+	{
+		return m_BmpSrcInfoMap[strID];
+	}
+private:
+	//DouBitmapFileInfo * FromZip(String strFileName, DouBitmapType enumBmpType)
+	//{
+	//	HZIP hz = OpenZip((void *)CDouUtils::GetImageZipPath().c_str(), 0, 2);	//ZIP_FILENAME
+	//	if (hz == NULL)
+	//	{
+	//		return NULL;
+	//	}
+	//	ZIPENTRY ze;
+	//	int i;
+	//	ZRESULT zRet = FindZipItem(hz, strFileName.c_str(), true, &i, &ze);
+	//	if (zRet == ZR_NOTFOUND)
+	//	{
+	//		CloseZip(hz);
+	//		return NULL;
+	//	}
+	//	DWORD dwSize = ze.unc_size;
+	//	if (dwSize == 0)
+	//	{
+	//		return NULL;
+	//	}
+	//	LPBYTE pData = new BYTE[dwSize];
+	//	int iRet = UnzipItem(hz, i, pData, dwSize, 3);
+	//	if (iRet != 0x00000000 && iRet != 0x00000600)
+	//	{
+	//		delete[] pData;
+	//		pData = NULL;
+	//		CloseZip(hz);
+	//		return NULL;
+	//	}
+	//	CloseZip(hz);
+	//	return FromMemory(pData, dwSize, enumBmpType);
+	//}
+
+	
+
 	void Free()
 	{
 		//位图文件信息，需要释放句柄
 		map<String, DouBitmapFileInfo*>::iterator iterBmpFileInfo;
 		for (iterBmpFileInfo = m_BmpFileInfoMap.begin(); iterBmpFileInfo != m_BmpFileInfoMap.end(); iterBmpFileInfo ++)
 		{
-			FreeImage(iterBmpFileInfo->second);
+			CDouBitmapManager::FreeImage(iterBmpFileInfo->second);
 		}
 		m_BmpFileInfoMap.clear();
 		//位图源信息，不释放句柄

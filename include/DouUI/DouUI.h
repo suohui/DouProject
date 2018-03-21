@@ -20,6 +20,7 @@ using namespace std;
 
 #include "DouUtils.h"
 #include "DouBitmapManager.h"
+#include "DouZipUtils.h"
 #include "DouRender.h"
 
 #include "DouControlBase.h"
