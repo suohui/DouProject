@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{b3f18fcf-f462-4f88-bbd3-a0b28b68e9be}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{df9a6243-4575-4378-8aa8-2d9cb09ec4e5}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e9b5c655-5521-49d1-ae3f-68f7cf1fd4bc}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
+    </Filter>
+    <Filter Include="DouUI">
+      <UniqueIdentifier>{e6476c69-f350-4884-8cc0-7e40ac173699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DouUI\include">
+      <UniqueIdentifier>{a412677a-945f-4792-a91a-b1ef13cbf966}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HappyMining.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\include\stb_image.c">
+      <Filter>DouUI\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\include\XUnzip.cpp">
+      <Filter>DouUI\include</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\include\stb_image.h">
+      <Filter>DouUI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\include\XUnzip.h">
+      <Filter>DouUI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouDlgBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouUI.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouBitmapManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouUtils.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouControlBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouImageObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouControlImpl.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HappyMining.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\HappyMining.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
