@@ -34,7 +34,8 @@ CDouBitmapManager::CDouBitmapManager()
 	m_BmpFileInfoMap.clear();
 	m_BmpSrcInfoMap.clear();
 	CDouZipUtils zipUtils(CDouUtils::GetImageZipPath());
-	for (size_t iIndex = 0; iIndex < sizeof(arrBmpResInfo) / sizeof(arrBmpResInfo[0]); iIndex++)
+	size_t iLen = sizeof(arrBmpResInfo) / sizeof(arrBmpResInfo[0]);
+	for (size_t iIndex = 0; iIndex < iLen; iIndex++)
 	{
 		DouBitmapFileInfo* pBmpFileInfo = NULL;
 		switch (arrBmpResInfo[iIndex].enumIDType)
@@ -65,7 +66,7 @@ CDouBitmapManager::~CDouBitmapManager()
 
 //单例中的 new 的对象需要delete释放。
 //delete释放对象的时候才会调用对象的析构函数
-CDouBitmapManager& CDouBitmapManager::GetInstance()
+CDouBitmapManager& CDouBitmapManager::Instance()
 {
 	static CDouBitmapManager bmpManagerInstance;
 	return bmpManagerInstance;

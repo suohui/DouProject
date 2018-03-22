@@ -21,6 +21,7 @@ using namespace std;
 #include "DouUtils.h"
 #include "DouBitmapManager.h"
 #include "DouFontManager.h"
+#include "DouColorManager.h"
 #include "DouZipUtils.h"
 
 #include "DouRender.h"

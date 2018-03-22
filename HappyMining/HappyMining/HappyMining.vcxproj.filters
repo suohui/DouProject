@@ -101,6 +101,9 @@
     <ClInclude Include="..\..\include\DouUI\DouRender.h">
       <Filter>DouUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouColorManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HappyMining.rc">

@@ -1,6 +1,5 @@
 #pragma once
 
-typedef std::map<String, HFONT> FONTMAP;
 class CDouFontManager
 {
 protected:
@@ -13,7 +12,7 @@ protected:
 			BOOL bBold;
 			BOOL bUnderLine;
 			BOOL bItalic;
-		} fts[] = {
+		} arrFontInfo[] = {
 			{ _T("default.font"), 12, FALSE, FALSE, FALSE },
 		{ _T("default.font13"), 15, FALSE, FALSE, FALSE }
 		};
@@ -23,13 +22,14 @@ protected:
 		m_lf.lfCharSet = DEFAULT_CHARSET;
 		lstrcpy(m_lf.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
 
-		for (size_t i = 0; i < sizeof(fts) / sizeof(fts[0]); i++)
+		size_t iLen = sizeof(arrFontInfo) / sizeof(arrFontInfo[0]);
+		for (size_t i = 0; i < iLen; i++)
 		{
-			m_lf.lfHeight = -fts[i].iSize;
-			m_lf.lfWeight = fts[i].bBold ? FW_BOLD : 0;
-			m_lf.lfUnderline = fts[i].bUnderLine;
-			m_lf.lfItalic = fts[i].bItalic;
-			m_hFontMap[fts[i].sID] = ::CreateFontIndirect(&m_lf);
+			m_lf.lfHeight = -arrFontInfo[i].iSize;
+			m_lf.lfWeight = arrFontInfo[i].bBold ? FW_BOLD : 0;
+			m_lf.lfUnderline = arrFontInfo[i].bUnderLine;
+			m_lf.lfItalic = arrFontInfo[i].bItalic;
+			m_hFontMap[arrFontInfo[i].sID] = ::CreateFontIndirect(&m_lf);
 		}
 	}
 
@@ -53,7 +53,7 @@ private:
 	{
 		if (!m_hFontMap.empty())
 		{
-			FONTMAP::iterator iter;
+			std::map<String, HFONT>::iterator iter;
 			for (iter = m_hFontMap.begin(); iter != m_hFontMap.end(); iter++)
 			{
 				DeleteObject(iter->second);
@@ -62,8 +62,7 @@ private:
 		}
 	}
 private:
-	static CDouFontManager* m_pFontManager;
-	FONTMAP m_hFontMap;
+	std::map<String, HFONT> m_hFontMap;
 };
 
 #define gFontManager CDouFontManager::Instance()

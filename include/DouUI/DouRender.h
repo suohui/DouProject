@@ -210,10 +210,10 @@ public:
 		size_t iFound = strStyleText.find(strTag);
 		if (iFound != String::npos)
 		{
-			size_t iQuotesLeft = strStyleText.find(_T('\"'), iFound);
+			size_t iQuotesLeft = strStyleText.find(_T('\''), iFound);
 			if (iQuotesLeft != String::npos)
 			{
-				size_t iQuotesRight = strStyleText.find(_T('\"'), iQuotesLeft + 1);
+				size_t iQuotesRight = strStyleText.find(_T('\''), iQuotesLeft + 1);
 				if (iQuotesRight != String::npos)
 				{
 					strRet = strStyleText.substr(iQuotesLeft + 1, iQuotesRight - iQuotesLeft - 1);

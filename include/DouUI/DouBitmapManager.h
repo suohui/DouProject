@@ -41,7 +41,7 @@ private:
 	~CDouBitmapManager();
 
 public:
-	static CDouBitmapManager& GetInstance();
+	static CDouBitmapManager& Instance();
 	static DouBitmapFileInfo * FromFile(String strFileName, DouBitmapType enumBmpType);
 	static DouBitmapFileInfo * FromMemory(LPBYTE pData, DWORD dwSize, DouBitmapType enumBmpType);
 	static void FreeImage(DouBitmapFileInfo *pBmpFileInfo);
@@ -54,6 +54,6 @@ private:
 	map<String, DouBitmapSrcInfo*>	m_BmpSrcInfoMap;
 };
 
-#define gBmpManager CDouBitmapManager::GetInstance()
+#define gBmpManager CDouBitmapManager::Instance()
 
 #endif //__DOUBITMAPMANAGER_H__
