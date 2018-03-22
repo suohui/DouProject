@@ -22,10 +22,10 @@ public:
 			};
 		} arrColorInfo[] = 
 		{
-		{L"system.white", RGBColor, RGB(255, 255, 255)},
-		{L"system.black", RGBColor, RGB(0, 0, 0)},
-		{L"color.textlink.normal", HexColor, 0x0084ff},
-		{L"MainPanel.NormalColor", HexColor, 0xcb8c25}
+		{_T("system.white"), RGBColor, RGB(255, 255, 255)},
+		{ _T("system.black"), RGBColor, RGB(0, 0, 0)},
+		{ _T("color.textlink.normal"), HexColor, 0x0084ff},
+		{ _T("MainPanel.NormalColor"), HexColor, 0xcb8c25}
 		};
 		size_t iLen = sizeof(arrColorInfo) / sizeof(arrColorInfo[0]);
 		for (size_t iIndex = 0; iIndex < iLen; iIndex++)

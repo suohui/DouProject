@@ -16,19 +16,19 @@ CDouBitmapManager::CDouBitmapManager()
 		};
 	} arrBmpResInfo[] =
 	{
-		{ L"MainWnd.Bkg.Titlebar", DouResIDType::Bitmap, L"主界面\\标题栏.png", DouBitmapType::OnlyOne },
-	{ L"MainWnd.Btn.Menu", DouResIDType::ItemList, L"主界面\\菜单.png", DouBitmapType::ThreeInOne },	//必须先有ItemList，后有SubItem
-	{ L"MainWnd.Btn.Menu.normal", DouResIDType::SubItem, L"MainWnd.Btn.Menu", 1 },
-	{ L"MainWnd.Btn.Menu.hover", DouResIDType::SubItem, L"MainWnd.Btn.Menu", 2 },
-	{ L"MainWnd.Btn.Menu.press", DouResIDType::SubItem, L"MainWnd.Btn.Menu", 3 },
-	{ L"MainWnd.Btn.Min", DouResIDType::ItemList, L"主界面\\最小化.png", DouBitmapType::ThreeInOne },
-	{ L"MainWnd.Btn.Min.normal", DouResIDType::SubItem, L"MainWnd.Btn.Min", 1 },
-	{ L"MainWnd.Btn.Min.hover", DouResIDType::SubItem, L"MainWnd.Btn.Min", 2 },
-	{ L"MainWnd.Btn.Min.press", DouResIDType::SubItem, L"MainWnd.Btn.Min", 3 },
-	{ L"MainWnd.Btn.Close", DouResIDType::ItemList, L"主界面\\标题栏.png", DouBitmapType::ThreeInOne },
-	{ L"MainWnd.Btn.Close.normal", DouResIDType::SubItem, L"MainWnd.Btn.Close", 1 },
-	{ L"MainWnd.Btn.Close.hover", DouResIDType::SubItem, L"MainWnd.Btn.Close", 2 },
-	{ L"MainWnd.Btn.Close.press", DouResIDType::SubItem, L"MainWnd.Btn.Close", 3 },
+		{ _T("MainWnd.Bkg.Titlebar"), DouResIDType::Bitmap, _T("主界面\\标题栏.png"), DouBitmapType::OnlyOne },
+	{ _T("MainWnd.Btn.Menu"), DouResIDType::ItemList, _T("主界面\\菜单.png"), DouBitmapType::ThreeInOne },	//必须先有ItemList，后有SubItem
+	{ _T("MainWnd.Btn.Menu.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 1 },
+	{ _T("MainWnd.Btn.Menu.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 2 },
+	{ _T("MainWnd.Btn.Menu.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 3 },
+	{ _T("MainWnd.Btn.Min"), DouResIDType::ItemList, _T("主界面\\最小化.png"), DouBitmapType::ThreeInOne },
+	{ _T("MainWnd.Btn.Min.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 1 },
+	{ _T("MainWnd.Btn.Min.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 2 },
+	{ _T("MainWnd.Btn.Min.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 3 },
+	{ _T("MainWnd.Btn.Close"), DouResIDType::ItemList, _T("主界面\\标题栏.png"), DouBitmapType::ThreeInOne },
+	{ _T("MainWnd.Btn.Close.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 1 },
+	{ _T("MainWnd.Btn.Close.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 2 },
+	{ _T("MainWnd.Btn.Close.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 3 },
 	};
 
 	m_BmpFileInfoMap.clear();

@@ -13,10 +13,10 @@ public:
 	//标准资源ID，自动在后面添加状态（状态小写）
 	void SetStandardResID(String strResID)
 	{
-		SetNormalResID(strResID + L".normal");
-		SetHoverResID(strResID + L".hover");
-		SetPressResID(strResID + L".press");
-		SetDisableResID(strResID + L".disable");
+		SetNormalResID(strResID + _T(".normal"));
+		SetHoverResID(strResID + _T(".hover"));
+		SetPressResID(strResID + _T(".press"));
+		SetDisableResID(strResID + _T(".disable"));
 	}
 
 	void SetNormalResID(String strResID)

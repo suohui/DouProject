@@ -4,7 +4,7 @@ struct TextInfo
 {
 	String strText;
 	String strFontID;
-	DWORD dwColor;
+	COLORREF dwColor;
 	int iWidth;
 	int iHeight;
 };
@@ -13,10 +13,10 @@ class CDouRender
 {
 public:
 	//绘制颜色
-	static void DrawColor(HDC hdc, CRect &rcPaint, DWORD dwColor)
+	static void DrawColor(HDC hdc, CRect &rcPaint, COLORREF clrTextColor)
 	{
 		CDCHandle dc(hdc);
-		dc.SetBkColor(RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor)));
+		dc.SetBkColor(clrTextColor);
 		dc.ExtTextOut(0, 0, ETO_OPAQUE, &rcPaint, NULL, 0, NULL);
 	}
 	//绘制图片
@@ -60,11 +60,11 @@ public:
 		memDC.SelectBitmap(hOldBmp);
 	}
 	//绘制单行文本
-	static void DrawSingleLineText(HDC hdc, String strText, RECT rcText, DWORD dwTextColor, String strFontID, UINT uFormat)
+	static void DrawSingleLineText(HDC hdc, String strText, RECT rcText, COLORREF clrTextColor, String strFontID, UINT uFormat)
 	{
 		CDCHandle dc(hdc);
 		dc.SetBkMode(TRANSPARENT);
-		dc.SetTextColor(RGB(GetBValue(dwTextColor), GetGValue(dwTextColor), GetRValue(dwTextColor)));
+		dc.SetTextColor(clrTextColor);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
 		SIZE szText = { 0, 0 };
 		::GetTextExtentPoint32(dc, strText.c_str(), strText.length(), &szText);
@@ -113,14 +113,14 @@ public:
 		return ptLeftTop;
 	}
 	//绘制单行HTML文本
-	//"<html fontid="" color="#">简单的绘制，不支持嵌套</html>"
-	static void DrawHtmlSingleLineText(HDC hdc, String strText, RECT rcText, DWORD dwTextColor, String strFontID, UINT uFormat)
+	//"<html fontid='' color='#'>简单的绘制，不支持嵌套</html>"
+	static void DrawHtmlSingleLineText(HDC hdc, String strText, RECT rcText, COLORREF clrTextColor, String strFontID, UINT uFormat)
 	{
 		std::vector<TextInfo*> vecTextInfo;
 		vecTextInfo.clear();
 		int iTotalWidth = 0;
 		int iMaxHeight = 0;
-		GetHtmlStringExtend(hdc, strText, dwTextColor, strFontID, vecTextInfo, iTotalWidth, iMaxHeight);	//将HTML文本解析出来
+		GetHtmlStringExtend(hdc, strText, clrTextColor, strFontID, vecTextInfo, iTotalWidth, iMaxHeight);	//将HTML文本解析出来
 		CPoint ptLeftTop = GetTextPaintPoint(rcText, CSize(iTotalWidth, iMaxHeight), uFormat);	//获取绘制的左上角点，由于高度不一致，所以全部用DT_BOTTOM
 
 		size_t vceLength = vecTextInfo.size();
@@ -135,11 +135,11 @@ public:
 		}
 	}
 	//绘制多行文本
-	static void DrawMultiLineText(HDC hdc, String strText, RECT rcText, DWORD dwTextColor, String strFontID, int iRowHeight)
+	static void DrawMultiLineText(HDC hdc, String strText, RECT rcText, COLORREF clrTextColor, String strFontID, int iRowHeight)
 	{
 		CDCHandle dc(hdc);
 		dc.SetBkMode(TRANSPARENT);
-		dc.SetTextColor(RGB(GetBValue(dwTextColor), GetGValue(dwTextColor), GetRValue(dwTextColor)));
+		dc.SetTextColor(clrTextColor);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
 		{
 			int iLength = strText.length();
@@ -170,7 +170,7 @@ public:
 				lpTmp = strText.c_str() + iIndex;
 				if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
 				{
-					DrawSingleLineText(hdc, lpTmp, CRect(0, iTop, rcText.right, rcText.bottom), dwTextColor, strFontID, DT_LEFT | DT_TOP);
+					DrawSingleLineText(hdc, lpTmp, CRect(0, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DT_LEFT | DT_TOP);
 					break;
 				}
 			}
@@ -179,27 +179,27 @@ public:
 		dc.SelectFont(hOldFont);
 	}
 
-	static void DrawText(HDC hdc, String strText, RECT& rcText, DWORD dwTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
+	static void DrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
 	{
 		if (bMultipLine)
 		{
-			DrawMultiLineText(hdc, strText, rcText, dwTextColor, strFontID, iRowHeight);
+			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, iRowHeight);
 		}
 		else
 		{
-			DrawSingleLineText(hdc, strText, rcText, dwTextColor, strFontID, uFormat);
+			DrawSingleLineText(hdc, strText, rcText, clrTextColor, strFontID, uFormat);
 		}
 	}
 	//绘制HTML文本
-	static void DrawHtmlText(HDC hdc, String strText, RECT& rcText, DWORD dwTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
+	static void DrawHtmlText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
 	{
 		if (bMultipLine)
 		{
-			DrawMultiLineText(hdc, strText, rcText, dwTextColor, strFontID, iRowHeight);
+			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, iRowHeight);
 		}
 		else
 		{
-			DrawHtmlSingleLineText(hdc, strText, rcText, dwTextColor, strFontID, uFormat);
+			DrawHtmlSingleLineText(hdc, strText, rcText, clrTextColor, strFontID, uFormat);
 		}
 	}
 
@@ -223,7 +223,7 @@ public:
 		return strRet;
 	}
 	//创建TextInfo结构
-	static TextInfo* GetTextInfo(HDC hdc, String strText, DWORD dwColor, String strFontID)
+	static TextInfo* GetTextInfo(HDC hdc, String strText, COLORREF clrTextColor, String strFontID)
 	{
 		CDCHandle dc(hdc);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
@@ -233,13 +233,13 @@ public:
 		TextInfo *pTextInfo = new TextInfo;
 		pTextInfo->strText = strText;
 		pTextInfo->strFontID = strFontID;
-		pTextInfo->dwColor = dwColor;
+		pTextInfo->dwColor = clrTextColor;
 		pTextInfo->iWidth = szText.cx;
 		pTextInfo->iHeight = szText.cy;
 		return pTextInfo;
 	}
 	//将HTML文件分隔，并获取总宽度 和 最大高度
-	static void GetHtmlStringExtend(HDC hdc, String strText, DWORD dwDefaultColor, String strDefaultFontID, vector<TextInfo *> &vecTextInfoRet, int &iTotalWidth, int &iMaxHeight)
+	static void GetHtmlStringExtend(HDC hdc, String strText, COLORREF clrTextColor, String strDefaultFontID, vector<TextInfo *> &vecTextInfoRet, int &iTotalWidth, int &iMaxHeight)
 	{
 		iTotalWidth = 0;
 		iMaxHeight = 0;
@@ -251,7 +251,7 @@ public:
 			if (nTagStartLeft == String::npos)
 			{
 				//添加正常的//最后一截
-				TextInfo *pNormalTextInfo = GetTextInfo(hdc, strTmp.substr(iStart), dwDefaultColor, strDefaultFontID);
+				TextInfo *pNormalTextInfo = GetTextInfo(hdc, strTmp.substr(iStart), clrTextColor, strDefaultFontID);
 				iTotalWidth += pNormalTextInfo->iWidth;
 				iMaxHeight = max(iMaxHeight, pNormalTextInfo->iHeight);
 				vecTextInfoRet.push_back(pNormalTextInfo);
@@ -269,7 +269,7 @@ public:
 				String strNormalText = strTmp.substr(iStart, nTagStartLeft);
 				if (!strNormalText.empty())
 				{
-					TextInfo *pNormalTextInfo = GetTextInfo(hdc, strNormalText, dwDefaultColor, strDefaultFontID);
+					TextInfo *pNormalTextInfo = GetTextInfo(hdc, strNormalText, clrTextColor, strDefaultFontID);
 					iTotalWidth += pNormalTextInfo->iWidth;
 					iMaxHeight = max(iMaxHeight, pNormalTextInfo->iHeight);
 					vecTextInfoRet.push_back(pNormalTextInfo);
@@ -282,7 +282,7 @@ public:
 					String strHtmlFontID = GetHtmlTagValue(strStyle, _T("fontid"));
 					String strHtmlColor = GetHtmlTagValue(strStyle, _T("color"));
 					LPTSTR lpEndPtr;
-					DWORD dwColor = strHtmlColor.empty() ? dwDefaultColor : _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
+					DWORD dwColor = strHtmlColor.empty() ? clrTextColor : _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
 					String strFont = strHtmlFontID.empty() ? strDefaultFontID : strHtmlFontID;
 					TextInfo *pHtmlTextInfo = GetTextInfo(hdc, strHtmlText, dwColor, strFont);
 					iTotalWidth += pHtmlTextInfo->iWidth;

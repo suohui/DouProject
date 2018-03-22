@@ -4,6 +4,10 @@ template <class T>
 class CDouDlgBase : public CDouControlImpl<T>
 {
 public:
+	CDouDlgBase()
+	{
+	}
+public:
 	BEGIN_MSG_MAP(CDouDlgBase)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		MESSAGE_HANDLER(WM_PAINT, OnPaint)
@@ -24,9 +28,9 @@ public:
 	//	m_pBkgndImageInfo = CXKnowRender::LoadImageFromFile(strFilePath);
 	//}
 	//ÉèÖÃ±³¾°ÑÕÉ«
-	void SetBkgndColor(DWORD dwColor)
+	void SetBkgndColorID(String strColorID)
 	{
-		m_dwBkgndColor = dwColor;
+		m_strBkgndColorID = strColorID;
 	}
 	//»ñÈ¡±³¾°Í¼Æ¬¾ä±ú
 	//HBITMAP GetBkgndHBitmap()
@@ -37,9 +41,9 @@ public:
 	//		return m_pBkgndImageInfo->hBitmap;
 	//}
 	//»ñÈ¡±³¾°ÑÕÉ«
-	DWORD GetBkgndColor()
+	String GetBkgndColorID()
 	{
-		return m_dwBkgndColor;
+		return m_strBkgndColorID;
 	}
 protected:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
@@ -63,9 +67,9 @@ protected:
 		pThis->GetClientRect(&rcClient);
 		CMemoryDC dcMem(hdc, rcClient);
 		//»­±³¾°ÑÕÉ«
-		if (m_dwBkgndColor != 0)
+		if (!m_strBkgndColorID.empty())
 		{
-			CDouRender::DrawColor(dcMem, rcClient, m_dwBkgndColor);
+			CDouRender::DrawColor(dcMem, rcClient, gColorManager.GetColor(m_strBkgndColorID));
 		}
 		DrawAllObject(dcMem);
 	}
@@ -95,5 +99,5 @@ protected:
 		return HTCAPTION;
 	}
 private:
-	DWORD m_dwBkgndColor;	//±³¾°ÑÕÉ«
+	String m_strBkgndColorID;
 };

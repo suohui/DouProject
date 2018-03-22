@@ -39,11 +39,12 @@ void CMainDlg::InitDialog()
 
 	UIAddChildWindowContainer(m_hWnd);
 
-	SetBkgndColor(0xFFFFFF);
+	SetBkgndColorID(L"system.white");
 
 	CDouTextObject *pTextObj = GetTextObject(L"Title");
 	pTextObj->SetText(L"我是标题");
 	pTextObj->SetControlRect(300, 10, 50, 20);
+	pTextObj->SetTextColorID(L"color.textlink.normal");
 
 
 	CDouImageObject *pJewel = GetImageObject(L"Jewel");
