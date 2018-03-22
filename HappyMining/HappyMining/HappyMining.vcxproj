@@ -201,6 +201,8 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\DouUI\DouBitmapManager.cpp" />
+    <ClCompile Include="..\..\include\DouUI\DouZipUtils.cpp" />
     <ClCompile Include="..\..\include\DouUI\include\stb_image.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -221,11 +223,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\DouUI\DouBitmapManager.h" />
+    <ClInclude Include="..\..\include\DouUI\DouButtonObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouControlBase.h" />
     <ClInclude Include="..\..\include\DouUI\DouControlImpl.h" />
     <ClInclude Include="..\..\include\DouUI\DouDlgBase.h" />
+    <ClInclude Include="..\..\include\DouUI\DouFontManager.h" />
     <ClInclude Include="..\..\include\DouUI\DouImageObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouRender.h" />
+    <ClInclude Include="..\..\include\DouUI\DouTextObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouUI.h" />
     <ClInclude Include="..\..\include\DouUI\DouUtils.h" />
     <ClInclude Include="..\..\include\DouUI\DouZipUtils.h" />

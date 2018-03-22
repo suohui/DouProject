@@ -39,6 +39,12 @@
     <ClCompile Include="..\..\include\DouUI\include\XUnzip.cpp">
       <Filter>DouUI\include</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\DouZipUtils.cpp">
+      <Filter>DouUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\DouBitmapManager.cpp">
+      <Filter>DouUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -71,9 +77,6 @@
     <ClInclude Include="..\..\include\DouUI\DouUtils.h">
       <Filter>DouUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\DouUI\DouRender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\DouUI\DouControlBase.h">
       <Filter>DouUI</Filter>
     </ClInclude>
@@ -84,6 +87,18 @@
       <Filter>DouUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\DouUI\DouZipUtils.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouFontManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouButtonObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouRender.h">
       <Filter>DouUI</Filter>
     </ClInclude>
   </ItemGroup>

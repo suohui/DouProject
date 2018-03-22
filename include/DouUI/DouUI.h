@@ -20,11 +20,18 @@ using namespace std;
 
 #include "DouUtils.h"
 #include "DouBitmapManager.h"
+#include "DouFontManager.h"
 #include "DouZipUtils.h"
+
 #include "DouRender.h"
 
 #include "DouControlBase.h"
 #include "DouImageObject.h"
+#include "DouTextObject.h"
+#include "DouButtonObject.h"
 
 #include "DouControlImpl.h"
 #include "DouDlgBase.h"
+
+
+

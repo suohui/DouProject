@@ -41,6 +41,10 @@ void CMainDlg::InitDialog()
 
 	SetBkgndColor(0xFFFFFF);
 
+	CDouTextObject *pTextObj = GetTextObject(L"Title");
+	pTextObj->SetText(L"我是标题");
+	pTextObj->SetControlRect(300, 10, 50, 20);
+
 
 	CDouImageObject *pJewel = GetImageObject(L"Jewel");
 	pJewel->SetImageResID(L"MainWnd.Bkg.Titlebar");
@@ -51,6 +55,16 @@ void CMainDlg::InitDialog()
 	pLogo->SetImageResID(L"MainWnd.Btn.Close.normal");
 	pLogo->SetControlRect(680 - 12 - 28, 14, 28, 28);
 	pLogo->SetZOrder(1);
+
+	//CDouButtonObject *pBtnObj = GetButtonObject(L"Reboot");
+	//pBtnObj->SetImageFilePath(CXKnowGobal::GetImageDir() + _T("btn.png"), PNGTYPE::FourInOne);
+	//pBtnObj->SetControlRect(150, 200, 160, 32);
+
+	CDouButtonObject *pBtnObj = GetButtonObject(L"menu");
+	pBtnObj->SetNormalResID(L"MainWnd.Btn.Menu.normal");
+	pBtnObj->SetHoverResID(L"MainWnd.Btn.Menu.hover");
+	pBtnObj->SetPressResID(L"MainWnd.Btn.Menu.press");
+	pBtnObj->SetControlRect(680 - 12 - 6 * 2 - 28 * 3, 14, 28, 28);
 	//return TRUE;
 }
 
