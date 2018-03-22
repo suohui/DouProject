@@ -22,6 +22,10 @@ public:
 	//ªÊ÷∆Õº∆¨
 	static void DrawImage(HDC hdc, const CRect& rcDst, DouBitmapSrcInfo* pBmpSrcInfo, BOOL bStretch = FALSE)
 	{
+		if (NULL == pBmpSrcInfo)
+		{
+			return;
+		}
 		CDCHandle dc(hdc);
 		CDC memDC;
 		memDC.CreateCompatibleDC(dc);

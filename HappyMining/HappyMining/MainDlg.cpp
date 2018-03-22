@@ -56,14 +56,8 @@ void CMainDlg::InitDialog()
 	pLogo->SetControlRect(680 - 12 - 28, 14, 28, 28);
 	pLogo->SetZOrder(1);
 
-	//CDouButtonObject *pBtnObj = GetButtonObject(L"Reboot");
-	//pBtnObj->SetImageFilePath(CXKnowGobal::GetImageDir() + _T("btn.png"), PNGTYPE::FourInOne);
-	//pBtnObj->SetControlRect(150, 200, 160, 32);
-
 	CDouButtonObject *pBtnObj = GetButtonObject(L"menu");
-	pBtnObj->SetNormalResID(L"MainWnd.Btn.Menu.normal");
-	pBtnObj->SetHoverResID(L"MainWnd.Btn.Menu.hover");
-	pBtnObj->SetPressResID(L"MainWnd.Btn.Menu.press");
+	pBtnObj->SetStandardResID(L"MainWnd.Btn.Menu");
 	pBtnObj->SetControlRect(680 - 12 - 6 * 2 - 28 * 3, 14, 28, 28);
 	//return TRUE;
 }
