@@ -29,6 +29,9 @@ CDouBitmapManager::CDouBitmapManager()
 	{ _T("MainWnd.Btn.Close.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 1 },
 	{ _T("MainWnd.Btn.Close.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 2 },
 	{ _T("MainWnd.Btn.Close.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 3 },
+	{ _T("MainWnd.Bkg.PanelHover"), DouResIDType::Bitmap, _T("主界面\\list-hover.png"), DouBitmapType::OnlyOne },
+	{ _T("MainWnd.Bkg.PanelSelect"), DouResIDType::Bitmap, _T("主界面\\list-选中.png"), DouBitmapType::OnlyOne },
+	{ _T("MainWnd.ETC.Logo"), DouResIDType::Bitmap, _T("主界面\\ETC-logo.png"), DouBitmapType::OnlyOne },
 	};
 
 	m_BmpFileInfoMap.clear();

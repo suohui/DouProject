@@ -28,6 +28,7 @@ public:
 		m_ControlType = DouControlType::TypeError;
 		m_iLastState = DouControlState::Normal;
 		m_iCurState = DouControlState::Normal;
+		m_pOwnerCtrl = NULL;
 	}
 public:
 	void SetControlRect(int iLeft, int iTop, int iWidth, int iHeight)
@@ -38,6 +39,7 @@ public:
 	void SetControlVisible(BOOL bVisible = TRUE)
 	{
 		m_bVisible = bVisible;
+		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
 	}
 	void SetZOrder(int iZOrder)
 	{
@@ -46,6 +48,17 @@ public:
 	void SetControlID(String strControlID)
 	{
 		m_strControlID = strControlID;
+	}
+
+	void SetOwnerControl(CDouControlBase *pOwnerCtrl)
+	{
+		m_pOwnerCtrl = pOwnerCtrl;
+		m_ptControlOffset = m_pOwnerCtrl->GetControlRect().TopLeft;
+	}
+
+	BOOL IsOwnerControlVisible()
+	{
+		return (m_pOwnerCtrl == NULL) ? TRUE : m_pOwnerCtrl->IsControlVisible();
 	}
 
 	CRect GetControlRect()
@@ -74,6 +87,11 @@ public:
 		//必须继承
 	}
 
+	void DouInvalidateRect(BOOL bErase = TRUE)
+	{
+		::InvalidateRect(m_hWnd, &m_rcControl, bErase);
+	}
+
 	DouControlState m_iLastState;
 	DouControlState m_iCurState;
 protected:
@@ -83,4 +101,8 @@ protected:
 	CRect m_rcControl;
 	String m_strControlID;
 	DouControlType m_ControlType;
+	CPoint m_ptControlOffset;
+	CRect m_rcAbsolute;
+
+	CDouControlBase *m_pOwnerCtrl;	//父控件，若父控件不显示，子控件一定不显示
 };

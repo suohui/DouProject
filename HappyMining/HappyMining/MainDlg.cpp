@@ -61,6 +61,18 @@ void CMainDlg::InitDialog()
 	pBtnObj->SetStandardResID(L"MainWnd.Btn.Menu");
 	pBtnObj->SetControlRect(680 - 12 - 6 * 2 - 28 * 3, 14, 28, 28);
 	//return TRUE;
+
+	//µÚÒ»¸öPanel
+	CDouImageObject *pPanel = GetImageObject(L"Panel_1");
+	pPanel->SetImageResID(_T("MainWnd.Bkg.PanelSelect"));
+	pPanel->SetStretch(TRUE);
+	pPanel->SetControlRect(0, 56+40, 681, 64);
+
+	CDouImageObject *pETCLogo = GetImageObject(L"ETC.Logo");
+	pETCLogo->SetImageResID(_T("MainWnd.ETC.Logo"));
+	pETCLogo->SetControlRect(40, 56 + 40 + 16, 32, 32);
+	pETCLogo->SetOwnerControl(pPanel);
+	pETCLogo->SetZOrder(1);
 }
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -83,8 +95,10 @@ LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*
 
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+	CDouImageObject *pPanel = GetImageObject(L"Panel_1");
+	pPanel->SetControlVisible(FALSE);
 	// TODO: Add validation code 
-	CloseDialog(wID);
+	//CloseDialog(wID);
 	return 0;
 }
 

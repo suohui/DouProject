@@ -26,7 +26,7 @@ public:
 	void Draw(HDC hdc)
 	{
 		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(m_strID);
-		if (m_bVisible && !m_rcControl.IsRectEmpty() && (NULL != pBmpSrcInfo))
+		if (m_bVisible && !m_rcControl.IsRectEmpty() && (NULL != pBmpSrcInfo) && IsOwnerControlVisible())
 		{
 			CDouRender::DrawImage(hdc, m_rcControl, pBmpSrcInfo, m_bStretch);
 		}

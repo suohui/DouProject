@@ -281,10 +281,15 @@ public:
 					String strStyle = strTmp.substr(nTagStartLeft + 6, nTagStartRight - nTagStartLeft - 6);
 					String strHtmlFontID = GetHtmlTagValue(strStyle, _T("fontid"));
 					String strHtmlColor = GetHtmlTagValue(strStyle, _T("color"));
-					LPTSTR lpEndPtr;
-					DWORD dwColor = strHtmlColor.empty() ? clrTextColor : _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
+					COLORREF clrColor = clrTextColor;
+					if (!strHtmlColor.empty())
+					{
+						LPTSTR lpEndPtr;
+						DWORD dwColor = _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
+						clrColor = RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor));
+					}
 					String strFont = strHtmlFontID.empty() ? strDefaultFontID : strHtmlFontID;
-					TextInfo *pHtmlTextInfo = GetTextInfo(hdc, strHtmlText, dwColor, strFont);
+					TextInfo *pHtmlTextInfo = GetTextInfo(hdc, strHtmlText, clrColor, strFont);
 					iTotalWidth += pHtmlTextInfo->iWidth;
 					iMaxHeight = max(iMaxHeight, pHtmlTextInfo->iHeight);
 					vecTextInfoRet.push_back(pHtmlTextInfo);
