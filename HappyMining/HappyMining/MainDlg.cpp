@@ -70,7 +70,7 @@ void CMainDlg::InitDialog()
 
 	CDouImageObject *pETCLogo = GetImageObject(L"ETC.Logo");
 	pETCLogo->SetImageResID(_T("MainWnd.ETC.Logo"));
-	pETCLogo->SetControlRect(40, 56 + 40 + 16, 32, 32);
+	pETCLogo->SetControlRect(40, 16, 32, 32);
 	pETCLogo->SetOwnerControl(pPanel);
 	pETCLogo->SetZOrder(1);
 }
@@ -96,7 +96,7 @@ LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	CDouImageObject *pPanel = GetImageObject(L"Panel_1");
-	pPanel->SetControlVisible(FALSE);
+	pPanel->SetControlVisible(!pPanel->IsControlVisible());
 	// TODO: Add validation code 
 	//CloseDialog(wID);
 	return 0;

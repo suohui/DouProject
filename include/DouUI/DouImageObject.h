@@ -14,21 +14,21 @@ public:
 	void SetImageResID(String strID)
 	{
 		m_strID = strID;
-		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
+		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 
 	void SetStretch(BOOL bStretch = FALSE)
 	{
 		m_bStretch = bStretch;
-		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
+		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
-
-	void Draw(HDC hdc)
+protected:
+	void DrawControl(HDC hdc)
 	{
 		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(m_strID);
-		if (m_bVisible && !m_rcControl.IsRectEmpty() && (NULL != pBmpSrcInfo) && IsOwnerControlVisible())
+		if (NULL != pBmpSrcInfo)
 		{
-			CDouRender::DrawImage(hdc, m_rcControl, pBmpSrcInfo, m_bStretch);
+			CDouRender::DrawImage(hdc, GetControlPaintRect(), pBmpSrcInfo, m_bStretch);
 		}
 	}
 private:

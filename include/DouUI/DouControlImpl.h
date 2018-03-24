@@ -137,7 +137,7 @@ protected:
 		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
 		{
 			CDouControlBase*  pControlBase = iterControlBase->second;	///////////////添加可见与可用的判断
-			CRect rcControlBase = pControlBase->GetControlRect();
+			CRect rcControlBase = pControlBase->GetControlPaintRect();
 			pControlBase->m_iLastState = pControlBase->m_iCurState;
 			if (rcControlBase.PtInRect(pt))	//落上Button上，绘制
 			{
@@ -167,7 +167,7 @@ protected:
 		T* pThis = static_cast<T*>(this);
 		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		::ScreenToClient(pThis->m_hWnd, &pt);
-		if (NULL != m_DouControlHover && m_DouControlHover->GetControlRect().PtInRect(pt))
+		if (NULL != m_DouControlHover && m_DouControlHover->GetControlPaintRect().PtInRect(pt))
 		{
 			//鼠标hover消息
 		}
@@ -219,7 +219,7 @@ protected:
 		ReleaseCapture();
 		T* pThis = static_cast<T*>(this);
 		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		if (NULL != m_DouControlPress && m_DouControlPress->GetControlRect().PtInRect(pt))
+		if (NULL != m_DouControlPress && m_DouControlPress->GetControlPaintRect().PtInRect(pt))
 		{
 			//::MessageBox(NULL, NULL, NULL, 0);
 			//鼠标点击消息

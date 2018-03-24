@@ -34,12 +34,12 @@ public:
 	void SetControlRect(int iLeft, int iTop, int iWidth, int iHeight)
 	{
 		m_rcControl.SetRect(iLeft, iTop, iLeft + iWidth, iTop + iHeight);
-		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
+		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void SetControlVisible(BOOL bVisible = TRUE)
 	{
 		m_bVisible = bVisible;
-		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
+		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void SetZOrder(int iZOrder)
 	{
@@ -53,7 +53,8 @@ public:
 	void SetOwnerControl(CDouControlBase *pOwnerCtrl)
 	{
 		m_pOwnerCtrl = pOwnerCtrl;
-		m_ptControlOffset = m_pOwnerCtrl->GetControlRect().TopLeft;
+		CRect rcTmp = m_pOwnerCtrl == NULL ? CRect(0, 0, 0, 0) : m_pOwnerCtrl->GetControlPaintRect();
+		m_ptOwnerPaintPoint = CPoint(rcTmp.left, rcTmp.top);
 	}
 
 	BOOL IsOwnerControlVisible()
@@ -61,7 +62,12 @@ public:
 		return (m_pOwnerCtrl == NULL) ? TRUE : m_pOwnerCtrl->IsControlVisible();
 	}
 
-	CRect GetControlRect()
+	CRect GetControlPaintRect() //控件的实际位置
+	{
+		return CRect(CPoint(m_rcControl.left, m_rcControl.top) + m_ptOwnerPaintPoint, CSize(m_rcControl.Width(), m_rcControl.Height()));
+	}
+
+	CRect GetControlRelativeRect() //控件的相对位置
 	{
 		return m_rcControl;
 	}
@@ -82,27 +88,28 @@ public:
 		return m_ControlType;
 	}
 
-	virtual void Draw(HDC hdc)
+	void Draw(HDC hdc)
 	{
-		//必须继承
-	}
-
-	void DouInvalidateRect(BOOL bErase = TRUE)
-	{
-		::InvalidateRect(m_hWnd, &m_rcControl, bErase);
+		if (IsOwnerControlVisible() && m_bVisible && !GetControlPaintRect().IsRectEmpty())
+		{
+			DrawControl(hdc);
+		}
 	}
 
 	DouControlState m_iLastState;
 	DouControlState m_iCurState;
 protected:
+	virtual void DrawControl(HDC hdc)
+	{
+		//必须继承
+	}
 	HWND m_hWnd;
 	BOOL m_bVisible;
 	int m_iZOrder;
-	CRect m_rcControl;
 	String m_strControlID;
 	DouControlType m_ControlType;
-	CPoint m_ptControlOffset;
-	CRect m_rcAbsolute;
-
 	CDouControlBase *m_pOwnerCtrl;	//父控件，若父控件不显示，子控件一定不显示
+private:
+	CRect m_rcControl; //控件的相对位置
+	CPoint m_ptOwnerPaintPoint; //父控件的绝对位置
 };

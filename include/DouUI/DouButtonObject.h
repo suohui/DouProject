@@ -35,9 +35,10 @@ public:
 	{
 		m_strBkgResID[3] = strResID;
 	}
-	void Draw(HDC hdc)
+protected:
+	void DrawControl(HDC hdc)
 	{
-		CDouRender::DrawImage(hdc, m_rcControl, gBmpManager.GetBmpSrcInfo(m_strBkgResID[m_iCurState]), true);
+		CDouRender::DrawImage(hdc, GetControlPaintRect(), gBmpManager.GetBmpSrcInfo(m_strBkgResID[m_iCurState]), true);
 	}
 private:
 	String m_strBkgResID[4];

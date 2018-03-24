@@ -19,7 +19,7 @@ public:
 	void SetText(String strText)
 	{
 		m_strText = strText;
-		::InvalidateRect(m_hWnd, &m_rcControl, TRUE);
+		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void EnableHtmlTag(BOOL bTagEnable)
 	{
@@ -84,16 +84,16 @@ public:
 	{
 		return m_bMultiLine;
 	}
-
-	void Draw(HDC hdc)
+protected:
+	void DrawControl(HDC hdc)
 	{
 		if (m_bHtmlTagEnable)
 		{
-			CDouRender::DrawHtmlText(hdc, m_strText, m_rcControl, gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
+			CDouRender::DrawHtmlText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
 		}
 		else
 		{
-			CDouRender::DrawText(hdc, m_strText, m_rcControl, gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
+			CDouRender::DrawText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
 		}
 	}
 private:
