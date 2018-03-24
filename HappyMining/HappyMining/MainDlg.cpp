@@ -46,7 +46,6 @@ void CMainDlg::InitDialog()
 	pTextObj->SetControlRect(300, 10, 50, 20);
 	pTextObj->SetTextColorID(L"color.textlink.normal");
 
-
 	CDouImageObject *pJewel = GetImageObject(L"Jewel");
 	pJewel->SetImageResID(L"MainWnd.Bkg.Titlebar");
 	pJewel->SetControlRect(0, 0, 681, 56);
@@ -55,7 +54,6 @@ void CMainDlg::InitDialog()
 	CDouImageObject *pLogo = GetImageObject(L"Logo");
 	pLogo->SetImageResID(L"MainWnd.Btn.Close.normal");
 	pLogo->SetControlRect(680 - 12 - 28, 14, 28, 28);
-	pLogo->SetZOrder(1);
 
 	CDouButtonObject *pBtnObj = GetButtonObject(L"menu");
 	pBtnObj->SetStandardResID(L"MainWnd.Btn.Menu");
@@ -68,14 +66,10 @@ void CMainDlg::InitDialog()
 	pETCLogo->SetImageResID(_T("MainWnd.ETC.Logo"));
 	pETCLogo->SetControlRect(40, 16, 32, 32);
 	pETCLogo->SetOwnerControl(pPanel);
-	pETCLogo->SetZOrder(1);
-
 
 	pPanel->SetImageResID(_T("MainWnd.Bkg.PanelSelect"));
 	pPanel->SetStretch(TRUE);
 	pPanel->SetControlRect(0, 56+40, 681, 64);
-
-	
 }
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)

@@ -1,6 +1,6 @@
 #pragma once
 
-typedef pair<String, int> StringIntPair;
+typedef std::pair<String, int> StringIntPair;
 struct CmpByValue
 {
 	bool operator()(const StringIntPair& left, const StringIntPair& right)
@@ -24,7 +24,7 @@ public:
 	}
 	~CDouControlImpl()
 	{
-		map<String, CDouTextObject*>::iterator iterText;
+		std::map<String, CDouTextObject*>::iterator iterText;
 		for (iterText = m_TextObjectMap.begin(); iterText != m_TextObjectMap.end(); iterText++)
 		{
 			if (NULL != iterText->second)
@@ -35,7 +35,7 @@ public:
 		}
 		m_TextObjectMap.clear();
 
-		map<String, CDouImageObject*>::iterator iterImage;
+		std::map<String, CDouImageObject*>::iterator iterImage;
 		for (iterImage = m_ImageObjectMap.begin(); iterImage != m_ImageObjectMap.end(); iterImage++)
 		{
 			if (NULL != iterImage->second)
@@ -46,7 +46,7 @@ public:
 		}
 		m_ImageObjectMap.clear();
 
-		map<String, CDouControlBase*>::iterator iterControlBase;
+		std::map<String, CDouControlBase*>::iterator iterControlBase;
 		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
 		{
 			if (NULL != iterControlBase->second)
@@ -87,37 +87,36 @@ public:
 
 	void DrawAllObject(HDC hDC)
 	{
-		//画图片,先将ZOrder递增排序
-		map<String, CDouImageObject*>::iterator iterImage;
-		vector<StringIntPair> vecZorder;
+		//画图片
+		std::map<String, CDouImageObject*>::iterator iterImage;
+		std::vector<StringIntPair> vecZorder;
 		for (iterImage = m_ImageObjectMap.begin(); iterImage != m_ImageObjectMap.end(); iterImage++)
 		{
 			CDouImageObject* pImageObject = iterImage->second;
-			if (NULL != pImageObject)
+			if ((NULL != pImageObject) && pImageObject->GetOwnerControl() == NULL)
 			{
-				vecZorder.push_back(make_pair(iterImage->first, pImageObject->GetZOrder()));
+				pImageObject->Draw(hDC);
 			}
 		}
-		sort(vecZorder.begin(), vecZorder.end(), CmpByValue());
-		vector<StringIntPair>::iterator iterZOrder;
-		for (iterZOrder = vecZorder.begin(); iterZOrder != vecZorder.end(); iterZOrder++)	//ZOrder大的在上面
-		{
-			CDouImageObject* pImageObject = m_ImageObjectMap[iterZOrder->first];
-			pImageObject->Draw(hDC);
-		}
 		//画Button
-		map<String, CDouControlBase*>::iterator iterControlBase;
+		std::map<String, CDouControlBase*>::iterator iterControlBase;
 		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
 		{
 			CDouControlBase*  pControlBase = iterControlBase->second;
-			pControlBase->Draw(hDC);
+			if ((NULL != pControlBase) && pControlBase->GetOwnerControl() == NULL)
+			{
+				pControlBase->Draw(hDC);
+			}
 		}
 		//画文字
-		map<String, CDouTextObject*>::iterator iterText;
+		std::map<String, CDouTextObject*>::iterator iterText;
 		for (iterText = m_TextObjectMap.begin(); iterText != m_TextObjectMap.end(); iterText++)
 		{
 			CDouTextObject* pTextInfo = iterText->second;
-			pTextInfo->Draw(hDC);
+			if ((NULL != pTextInfo) && pTextInfo->GetOwnerControl() == NULL)
+			{
+				pTextInfo->Draw(hDC);
+			}
 		}
 	}
 
@@ -133,7 +132,7 @@ protected:
 		CDouControlBase* pControlBaseRet = NULL;
 		T* pThis = static_cast<T*>(this);
 		//是否落在可点击控件上
-		map<String, CDouControlBase*>::iterator iterControlBase;
+		std::map<String, CDouControlBase*>::iterator iterControlBase;
 		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
 		{
 			CDouControlBase*  pControlBase = iterControlBase->second;	///////////////添加可见与可用的判断
@@ -231,9 +230,9 @@ protected:
 	}
 private:
 	BOOL m_bTracking;
-	map<String, CDouTextObject*> m_TextObjectMap;
-	map<String, CDouImageObject*> m_ImageObjectMap;
-	map<String, CDouControlBase*> m_ClickedObjectMap;
+	std::map<String, CDouTextObject*> m_TextObjectMap;
+	std::map<String, CDouImageObject*> m_ImageObjectMap;
+	std::map<String, CDouControlBase*> m_ClickedObjectMap;
 	CDouControlBase* m_DouControlHover;	//鼠标Hover的控件
 	CDouControlBase* m_DouControlPress;	//鼠标按下去的控件
 };

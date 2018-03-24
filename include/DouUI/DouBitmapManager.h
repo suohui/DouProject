@@ -50,8 +50,8 @@ private:
 	void Free();
 	void AddToBmpSrcInfoMap(String strID, DouBitmapFileInfo *pBmpFileInfo, int iIndex = 1);
 private:
-	map<String, DouBitmapFileInfo*>	m_BmpFileInfoMap;
-	map<String, DouBitmapSrcInfo*>	m_BmpSrcInfoMap;
+	std::map<String, DouBitmapFileInfo*>	m_BmpFileInfoMap;
+	std::map<String, DouBitmapSrcInfo*>	m_BmpSrcInfoMap;
 };
 
 #define gBmpManager CDouBitmapManager::Instance()

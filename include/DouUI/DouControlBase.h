@@ -24,7 +24,6 @@ public:
 	{
 		m_hWnd = hWnd;
 		m_bVisible = TRUE;
-		m_iZOrder = 0;
 		m_ControlType = DouControlType::TypeError;
 		m_iLastState = DouControlState::Normal;
 		m_iCurState = DouControlState::Normal;
@@ -41,10 +40,6 @@ public:
 		m_bVisible = bVisible;
 		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
-	void SetZOrder(int iZOrder)
-	{
-		m_iZOrder = iZOrder;
-	}
 	void SetControlID(String strControlID)
 	{
 		m_strControlID = strControlID;
@@ -53,8 +48,15 @@ public:
 	void SetOwnerControl(CDouControlBase *pOwnerCtrl)
 	{
 		m_pOwnerCtrl = pOwnerCtrl;
-		CRect rcTmp = m_pOwnerCtrl == NULL ? CRect(0, 0, 0, 0) : m_pOwnerCtrl->GetControlPaintRect();
-		m_ptOwnerPaintPoint = CPoint(rcTmp.left, rcTmp.top);
+		pOwnerCtrl->AddChildControl(this);
+	}
+	void AddChildControl(CDouControlBase *pChildCtrl)
+	{
+		m_vecChildControl.push_back(pChildCtrl);
+	}
+	CDouControlBase *GetOwnerControl()
+	{
+		return m_pOwnerCtrl;
 	}
 
 	BOOL IsOwnerControlVisible()
@@ -64,7 +66,8 @@ public:
 
 	CRect GetControlPaintRect() //控件的实际位置
 	{
-		return CRect(CPoint(m_rcControl.left, m_rcControl.top) + m_ptOwnerPaintPoint, CSize(m_rcControl.Width(), m_rcControl.Height()));
+		CRect rcTmp = (m_pOwnerCtrl == NULL) ? CRect(0, 0, 0, 0) : m_pOwnerCtrl->GetControlPaintRect();
+		return CRect(CPoint(m_rcControl.left + rcTmp.left, m_rcControl.top + rcTmp.top), CSize(m_rcControl.Width(), m_rcControl.Height()));
 	}
 
 	CRect GetControlRelativeRect() //控件的相对位置
@@ -75,10 +78,7 @@ public:
 	{
 		return m_bVisible;
 	}
-	int GetZOrder()
-	{
-		return m_iZOrder;
-	}
+
 	String GetControlID()
 	{
 		return m_strControlID;
@@ -92,7 +92,13 @@ public:
 	{
 		if (IsOwnerControlVisible() && m_bVisible && !GetControlPaintRect().IsRectEmpty())
 		{
-			DrawControl(hdc);
+			DrawControl(hdc); //画自己
+			//画children
+			size_t iChildrenCount = m_vecChildControl.size();
+			for (size_t iIndex = 0; iIndex < iChildrenCount; iIndex++)
+			{
+				m_vecChildControl[iIndex]->Draw(hdc);
+			}
 		}
 	}
 
@@ -105,11 +111,10 @@ protected:
 	}
 	HWND m_hWnd;
 	BOOL m_bVisible;
-	int m_iZOrder;
 	String m_strControlID;
 	DouControlType m_ControlType;
 	CDouControlBase *m_pOwnerCtrl;	//父控件，若父控件不显示，子控件一定不显示
 private:
 	CRect m_rcControl; //控件的相对位置
-	CPoint m_ptOwnerPaintPoint; //父控件的绝对位置
+	std::vector<CDouControlBase *> m_vecChildControl;
 };

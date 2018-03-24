@@ -239,7 +239,7 @@ public:
 		return pTextInfo;
 	}
 	//将HTML文件分隔，并获取总宽度 和 最大高度
-	static void GetHtmlStringExtend(HDC hdc, String strText, COLORREF clrTextColor, String strDefaultFontID, vector<TextInfo *> &vecTextInfoRet, int &iTotalWidth, int &iMaxHeight)
+	static void GetHtmlStringExtend(HDC hdc, String strText, COLORREF clrTextColor, String strDefaultFontID, std::vector<TextInfo *> &vecTextInfoRet, int &iTotalWidth, int &iMaxHeight)
 	{
 		iTotalWidth = 0;
 		iMaxHeight = 0;

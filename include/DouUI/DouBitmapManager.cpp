@@ -176,14 +176,14 @@ DouBitmapSrcInfo* CDouBitmapManager::GetBmpSrcInfo(String strID)
 void CDouBitmapManager::Free()
 {
 	//位图文件信息，需要释放句柄
-	map<String, DouBitmapFileInfo*>::iterator iterBmpFileInfo;
+	std::map<String, DouBitmapFileInfo*>::iterator iterBmpFileInfo;
 	for (iterBmpFileInfo = m_BmpFileInfoMap.begin(); iterBmpFileInfo != m_BmpFileInfoMap.end(); iterBmpFileInfo++)
 	{
 		CDouBitmapManager::FreeImage(iterBmpFileInfo->second);
 	}
 	m_BmpFileInfoMap.clear();
 	//位图源信息，不释放句柄
-	map<String, DouBitmapSrcInfo*>::iterator iterBmpSrcInfo;
+	std::map<String, DouBitmapSrcInfo*>::iterator iterBmpSrcInfo;
 	for (iterBmpSrcInfo = m_BmpSrcInfoMap.begin(); iterBmpSrcInfo != m_BmpSrcInfoMap.end(); iterBmpSrcInfo++)
 	{
 		delete iterBmpSrcInfo->second;
