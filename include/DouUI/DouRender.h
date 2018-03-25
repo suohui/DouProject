@@ -94,22 +94,22 @@ public:
 		else
 			strPaint = strText;
 
-		CPoint ptPaintPoint = GetTextPaintPoint(rcTextClient, szText, uFormat);
+		CPoint ptPaintPoint = GetControlPaintPoint(rcTextClient, szText, uFormat);
 		dc.TextOut(ptPaintPoint.x, ptPaintPoint.y, strPaint.c_str(), -1);
 		dc.SelectFont(hOldFont);
 	}
-	//根据文本大小和绘制样式，确定左上角点
-	static CPoint GetTextPaintPoint(CRect rcCtrlRect, CSize szText, UINT uFormat)
+	//根据控件大小和绘制样式，确定左上角点
+	static CPoint GetControlPaintPoint(CRect rcCtrlRect, CSize szText, UINT uFormat)
 	{
 		CPoint ptLeftTop(rcCtrlRect.left, rcCtrlRect.top);
-		if ((uFormat & DT_RIGHT) != 0)
-			ptLeftTop.x = rcCtrlRect.left - szText.cx;
-		if ((uFormat & DT_BOTTOM) != 0)
+		if ((uFormat & DOU_RIGHT) != 0)
+			ptLeftTop.x = rcCtrlRect.right - szText.cx;
+		if ((uFormat & DOU_BOTTOM) != 0)
 			ptLeftTop.y = rcCtrlRect.bottom - szText.cy;
-		if ((uFormat & DT_CENTER) != 0)
-			ptLeftTop.x = (rcCtrlRect.Width() - szText.cx) / 2;
-		if ((uFormat & DT_VCENTER) != 0)
-			ptLeftTop.y = (rcCtrlRect.Height() - szText.cy) / 2;
+		if ((uFormat & DOU_CENTER) != 0)
+			ptLeftTop.x = rcCtrlRect.left + (rcCtrlRect.Width() - szText.cx) / 2;
+		if ((uFormat & DOU_VCENTER) != 0)
+			ptLeftTop.y = rcCtrlRect.top + (rcCtrlRect.Height() - szText.cy) / 2;
 		return ptLeftTop;
 	}
 	//绘制单行HTML文本
@@ -121,7 +121,7 @@ public:
 		int iTotalWidth = 0;
 		int iMaxHeight = 0;
 		GetHtmlStringExtend(hdc, strText, clrTextColor, strFontID, vecTextInfo, iTotalWidth, iMaxHeight);	//将HTML文本解析出来
-		CPoint ptLeftTop = GetTextPaintPoint(rcText, CSize(iTotalWidth, iMaxHeight), uFormat);	//获取绘制的左上角点，由于高度不一致，所以全部用DT_BOTTOM
+		CPoint ptLeftTop = GetControlPaintPoint(rcText, CSize(iTotalWidth, iMaxHeight), uFormat);	//获取绘制的左上角点，由于高度不一致，所以全部用DOU_BOTTOM
 
 		size_t vceLength = vecTextInfo.size();
 		int iLeft = ptLeftTop.x;
@@ -130,7 +130,7 @@ public:
 		{
 			TextInfo* pTextInfo = vecTextInfo[iIndex];
 			CRect rcText(iLeft, iTop, iLeft + pTextInfo->iWidth, iTop + iMaxHeight);
-			DrawSingleLineText(hdc, pTextInfo->strText, rcText, pTextInfo->dwColor, pTextInfo->strFontID, DT_BOTTOM);
+			DrawSingleLineText(hdc, pTextInfo->strText, rcText, pTextInfo->dwColor, pTextInfo->strFontID, DOU_BOTTOM);
 			iLeft = iLeft + pTextInfo->iWidth;
 		}
 	}
@@ -170,7 +170,7 @@ public:
 				lpTmp = strText.c_str() + iIndex;
 				if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
 				{
-					DrawSingleLineText(hdc, lpTmp, CRect(0, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DT_LEFT | DT_TOP);
+					DrawSingleLineText(hdc, lpTmp, CRect(0, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
 					break;
 				}
 			}
@@ -284,9 +284,16 @@ public:
 					COLORREF clrColor = clrTextColor;
 					if (!strHtmlColor.empty())
 					{
-						LPTSTR lpEndPtr;
-						DWORD dwColor = _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
-						clrColor = RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor));
+						if (strHtmlColor[0] == _T('#'))
+						{
+							LPTSTR lpEndPtr;
+							DWORD dwColor = _tcstol(strHtmlColor.c_str() + 1, &lpEndPtr, 16);
+							clrColor = RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor));
+						}
+						else
+						{
+							clrColor = gColorManager.GetColor(strHtmlColor);
+						}
 					}
 					String strFont = strHtmlFontID.empty() ? strDefaultFontID : strHtmlFontID;
 					TextInfo *pHtmlTextInfo = GetTextInfo(hdc, strHtmlText, clrColor, strFont);

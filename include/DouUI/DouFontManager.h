@@ -14,7 +14,8 @@ protected:
 			BOOL bItalic;
 		} arrFontInfo[] = {
 			{ _T("default.font"), 12, FALSE, FALSE, FALSE },
-		{ _T("default.font13"), 15, FALSE, FALSE, FALSE }
+		{ _T("Font14"), 14, FALSE, FALSE, FALSE },
+		{ _T("Font14.B"), 14, TRUE, FALSE, FALSE },
 		};
 
 		LOGFONT m_lf;

@@ -1,5 +1,12 @@
 #pragma once
 
+#define DOU_TOP                      0x00000000
+#define DOU_LEFT                     0x00000000
+#define DOU_CENTER                   0x00000001
+#define DOU_RIGHT                    0x00000002
+#define DOU_VCENTER                  0x00000004
+#define DOU_BOTTOM                   0x00000008
+
 class CDouUtils
 {
 public:
@@ -51,7 +58,7 @@ public:
 	}
 	static UINT GetTextFormatStyle()	//获取文本绘制样式
 	{
-		return DT_LEFT | DT_TOP;
+		return DOU_LEFT | DOU_TOP;
 	}
 	static int GetTextRowHeight()	//获取多行文本的行高
 	{

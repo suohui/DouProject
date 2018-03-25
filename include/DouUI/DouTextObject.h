@@ -9,7 +9,7 @@ public:
 		//设置默认字体ID
 		m_strFontID = CDouUtils::GetTextNormalFontID();
 		//设置默认字体绘制样式
-		m_uFormatStyle = CDouUtils::GetTextFormatStyle();
+		m_uPaintStyle = CDouUtils::GetTextFormatStyle();
 		m_bMultiLine = FALSE;
 		m_bVisible = TRUE;
 		m_bHtmlTagEnable = FALSE;
@@ -40,9 +40,9 @@ public:
 		m_strFontID = strFontID;
 	}
 
-	void SetTextFormatStyle(UINT uStyle)
+	void SetPaintStyle(UINT uStyle)
 	{
-		m_uFormatStyle = uStyle;
+		m_uPaintStyle = uStyle;
 	}
 
 	void SetTextMultiLine(BOOL bMultiLine)
@@ -75,9 +75,9 @@ public:
 		return m_strTextColorID;
 	}
 
-	UINT GetTextFormatStyle()
+	UINT GetPaintStyle()
 	{
-		return m_uFormatStyle;
+		return m_uPaintStyle;
 	}
 
 	BOOL IsTextMultiLine()
@@ -89,18 +89,18 @@ protected:
 	{
 		if (m_bHtmlTagEnable)
 		{
-			CDouRender::DrawHtmlText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
+			CDouRender::DrawHtmlText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uPaintStyle, m_bMultiLine, m_iRowHeight);
 		}
 		else
 		{
-			CDouRender::DrawText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uFormatStyle, m_bMultiLine, m_iRowHeight);
+			CDouRender::DrawText(hdc, m_strText, GetControlPaintRect(), gColorManager.GetColor(m_strTextColorID), m_strFontID, m_uPaintStyle, m_bMultiLine, m_iRowHeight);
 		}
 	}
 private:
 	String m_strFontID; //字体ID
 	String m_strTextColorID; //字体颜色ID
-	UINT  m_uFormatStyle; //文字绘制样式
-	BOOL m_bMultiLine;	//多行。简单起见，单行默认的绘制样式为DT_CENTER | DT_VCENTER | DT_SINGLELINE
+	UINT  m_uPaintStyle; //控件绘制样式
+	BOOL m_bMultiLine;	//多行。简单起见，单行默认的绘制样式为DOU_CENTER | DOU_VCENTER
 	BOOL m_bHtmlTagEnable;//支持THML标签绘制
 	int m_iRowHeight;
 	String m_strText;	//文字内容

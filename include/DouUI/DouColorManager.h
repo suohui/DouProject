@@ -25,7 +25,8 @@ public:
 		{_T("system.white"), RGBColor, RGB(255, 255, 255)},
 		{ _T("system.black"), RGBColor, RGB(0, 0, 0)},
 		{ _T("color.textlink.normal"), HexColor, 0x0084ff},
-		{ _T("MainPanel.NormalColor"), HexColor, 0xcb8c25}
+		{ _T("MainPanel.Currency.Major"), HexColor, 0x3C3C3C},
+		{ _T("MainPanel.Currency.Minor"), HexColor, 0x9B9B9B},
 		};
 		size_t iLen = sizeof(arrColorInfo) / sizeof(arrColorInfo[0]);
 		for (size_t iIndex = 0; iIndex < iLen; iIndex++)
