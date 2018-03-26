@@ -338,6 +338,27 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	return 0;
 }
 
+LRESULT CMainDlg::OnDouControlClick(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+{
+	CDouControlBase* pCtrl = (CDouControlBase*)lParam;
+	switch (pCtrl->GetControlType())
+	{
+	case DouControlType::DouButton:
+		if (pCtrl == GetButtonObject(_T("Min")))
+		{
+			ShowWindow(SW_MINIMIZE);
+		}
+		else if (pCtrl == GetButtonObject(_T("Close")))
+		{
+			CloseDialog(0);
+		}
+		break;
+	default:
+		break;
+	}
+	return 0;
+}
+
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	CAboutDlg dlg;

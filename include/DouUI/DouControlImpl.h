@@ -1,5 +1,6 @@
 #pragma once
 
+#define WM_DOUCONTROLCLICK WM_USER + 1024
 typedef std::pair<String, int> StringIntPair;
 struct CmpByValue
 {
@@ -138,7 +139,7 @@ protected:
 			CDouControlBase*  pControlBase = iterControlBase->second;	///////////////添加可见与可用的判断
 			CRect rcControlBase = pControlBase->GetControlPaintRect();
 			pControlBase->m_iLastState = pControlBase->m_iCurState;
-			if (rcControlBase.PtInRect(pt))	//落上Button上，绘制
+			if (rcControlBase.PtInRect(pt))	//落上控件上，绘制
 			{
 				DouControlType type = pControlBase->GetControlType();
 				pControlBase->m_iCurState = ctlState;
@@ -220,11 +221,11 @@ protected:
 		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		if (NULL != m_DouControlPress && m_DouControlPress->GetControlPaintRect().PtInRect(pt))
 		{
-			//::MessageBox(NULL, NULL, NULL, 0);
 			//鼠标点击消息
+			::SendMessage(pThis->m_hWnd, WM_DOUCONTROLCLICK, 0, (LPARAM)m_DouControlPress);
 		}
 		m_DouControlPress = NULL;
-		SetDouControlState(pt, DouControlState::Hover);
+		SetDouControlState(pt, DouControlState::Normal);
 
 		return 0;
 	}

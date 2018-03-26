@@ -20,6 +20,9 @@ public:
 	BEGIN_MSG_MAP(CMainDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
+
+		MESSAGE_HANDLER(WM_DOUCONTROLCLICK, OnDouControlClick)
+
 		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
@@ -39,6 +42,8 @@ public:
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+	LRESULT OnDouControlClick(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+
 	void CloseDialog(int nVal);
 
 private:
@@ -47,3 +52,8 @@ private:
 	int m_iPriceLeft;
 	int m_iSpeedLeft;
 };
+
+
+//待解决的问题：
+//1、绘制文本时，会有间隙
+
