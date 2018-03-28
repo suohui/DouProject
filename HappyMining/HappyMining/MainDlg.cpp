@@ -136,15 +136,14 @@ void CMainDlg::InitDialog()
 void CMainDlg::SetCurrencyPanel(String strCurrency, int iPanelTop, DouControlState enumState/* = DouControlState::Normal*/)
 {
 	CDouImageObject *pPanel = GetImageObject(strCurrency + _T(".Panel"));
+	pPanel->SetStretch(TRUE);
 	switch (enumState)
 	{
 	case Hover:
 		pPanel->SetImageResID(_T("MainWnd.Bkg.PanelHover"));
-		pPanel->SetStretch(TRUE);
 		break;
 	case Press:
 		pPanel->SetImageResID(_T("MainWnd.Bkg.PanelSelect"));
-		pPanel->SetStretch(TRUE);
 		break;
 	default:
 		pPanel->SetImageResID(_T(""));
@@ -368,8 +367,9 @@ LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*
 
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	CDouImageObject *pPanel = GetImageObject(L"Panel_1");
+	CDouImageObject *pPanel = GetImageObject(L"XMR.Panel");
 	pPanel->SetControlVisible(!pPanel->IsControlVisible());
+	pPanel->DouInvalidateRect();
 	// TODO: Add validation code 
 	//CloseDialog(wID);
 	return 0;

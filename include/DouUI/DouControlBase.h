@@ -33,12 +33,10 @@ public:
 	void SetControlRect(int iLeft, int iTop, int iWidth, int iHeight)
 	{
 		m_rcControl.SetRect(iLeft, iTop, iLeft + iWidth, iTop + iHeight);
-		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void SetControlVisible(BOOL bVisible = TRUE)
 	{
 		m_bVisible = bVisible;
-		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void SetControlID(String strControlID)
 	{
@@ -50,6 +48,12 @@ public:
 		m_pOwnerCtrl = pOwnerCtrl;
 		pOwnerCtrl->AddChildControl(this);
 	}
+
+	BOOL DouInvalidateRect(BOOL bErase = TRUE)
+	{
+		return ::InvalidateRect(m_hWnd, &GetControlPaintRect(), bErase);
+	}
+
 	void AddChildControl(CDouControlBase *pChildCtrl)
 	{
 		m_vecChildControl.push_back(pChildCtrl);

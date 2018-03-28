@@ -15,7 +15,6 @@ public:
 	void SetImageResID(String strID)
 	{
 		m_strID = strID;
-		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 
 	void SetPaintStyle(UINT uStyle)
@@ -31,7 +30,6 @@ public:
 	void SetStretch(BOOL bStretch = FALSE)
 	{
 		m_bStretch = bStretch;
-		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 protected:
 	void DrawControl(HDC hdc)

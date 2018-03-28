@@ -144,14 +144,14 @@ protected:
 				DouControlType type = pControlBase->GetControlType();
 				pControlBase->m_iCurState = ctlState;
 				if (pControlBase->m_iLastState != pControlBase->m_iCurState)
-					::InvalidateRect(pThis->m_hWnd, &rcControlBase, TRUE);
+					pControlBase->DouInvalidateRect();
 				pControlBaseRet = pControlBase;
 			}
 			else
 			{
 				if (pControlBase->m_iCurState != DouControlState::Normal)
 				{
-					::InvalidateRect(pThis->m_hWnd, &rcControlBase, TRUE);
+					pControlBase->DouInvalidateRect();
 				}
 				pControlBase->m_iCurState = DouControlState::Normal;
 				pControlBase->m_iLastState = DouControlState::Normal;
@@ -180,7 +180,7 @@ protected:
 		{
 			TRACKMOUSEEVENT tme;
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
-			tme.dwFlags = TME_LEAVE | TME_HOVER;
+			tme.dwFlags = TME_LEAVE | TME_HOVER | TME_NONCLIENT;
 			tme.dwHoverTime = 10;
 			tme.hwndTrack = pThis->m_hWnd;
 			m_bTracking = ::_TrackMouseEvent(&tme);
@@ -189,6 +189,8 @@ protected:
 	}
 	LRESULT OnNcMouseLeave(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
+		if (NULL != m_DouControlPress)	//按下的时候，不响应MouseMove
+			return 0;
 		m_bTracking = FALSE;
 		if (NULL != m_DouControlHover)
 		{
@@ -198,6 +200,13 @@ protected:
 		SetDouControlState(CPoint(-1, -1), DouControlState::Normal);
 		return 0;
 	}
+
+	CDouControlBase* FindDouControl(CPoint pt)
+	{
+
+	}
+
+
 	LRESULT OnNcLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled)
 	{
 		m_DouControlHover = NULL;
@@ -236,4 +245,6 @@ private:
 	std::map<String, CDouControlBase*> m_ClickedObjectMap;
 	CDouControlBase* m_DouControlHover;	//鼠标Hover的控件
 	CDouControlBase* m_DouControlPress;	//鼠标按下去的控件
+
+	
 };

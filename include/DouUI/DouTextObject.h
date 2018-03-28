@@ -19,7 +19,6 @@ public:
 	void SetText(String strText)
 	{
 		m_strText = strText;
-		::InvalidateRect(m_hWnd, &GetControlPaintRect(), TRUE);
 	}
 	void EnableHtmlTag(BOOL bTagEnable)
 	{
