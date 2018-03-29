@@ -29,6 +29,7 @@ public:
 		m_ControlType = DouControlType::TypeError;
 		m_iCurState = DouControlState::Normal;
 		m_pOwnerCtrl = NULL;
+		m_vecChildControl.clear();
 	}
 public:
 	void SetControlRect(int iLeft, int iTop, int iWidth, int iHeight)
@@ -66,7 +67,14 @@ public:
 
 	BOOL IsOwnerControlVisible()
 	{
-		return (m_pOwnerCtrl == NULL) ? TRUE : m_pOwnerCtrl->IsControlVisible();
+		BOOL bRet = TRUE;
+		CDouControlBase* pOwnerCtrlTmp = m_pOwnerCtrl;
+		while ((pOwnerCtrlTmp != NULL) && bRet)
+		{
+			bRet = bRet && pOwnerCtrlTmp->IsControlVisible();
+			pOwnerCtrlTmp = pOwnerCtrlTmp->GetOwnerControl();
+		}
+		return bRet;
 	}
 
 	CRect GetControlPaintRect() //控件的实际位置

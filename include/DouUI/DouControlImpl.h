@@ -65,13 +65,35 @@ public:
 
 	void DrawAllObject(HDC hDC)
 	{
-		std::map<String, CDouControlBase*>::iterator iterControlBase;
-		for (iterControlBase = m_ControlObjectMap.begin(); iterControlBase != m_ControlObjectMap.end(); iterControlBase++)
+		//先将主窗体上的控件按ZOrder递增排序
+		//std::map<String, CDouControlBase*>::iterator iterCtrlMap;
+		//std::vector<StringIntPair> vecZorder;
+		//for (iterCtrlMap = m_ControlObjectMap.begin(); iterCtrlMap != m_ControlObjectMap.end(); iterCtrlMap++)
+		//{
+		//	CDouControlBase* pCtrlObj = iterCtrlMap->second;
+		//	if ((NULL != pCtrlObj) && (pCtrlObj->GetOwnerControl() == NULL))
+		//	{
+		//		vecZorder.push_back(make_pair(iterCtrlMap->first, pCtrlObj->GetZOrder()));
+		//	}
+		//}
+		//sort(vecZorder.begin(), vecZorder.end(), CmpByValue());
+		//size_t vecLen = vecZorder.size();
+		//for (size_t iIndex = 0; iIndex < vecLen; iIndex++)
+		//{
+		//	CDouControlBase* pCtrlObj = m_ControlObjectMap[vecZorder[iIndex].first];
+		//	if ((NULL != pCtrlObj) && pCtrlObj->GetOwnerControl() == NULL)
+		//	{
+		//		pCtrlObj->Draw(hDC);
+		//	}
+		//}
+		
+		std::map<String, CDouControlBase*>::iterator iterCtrlMap;
+		for (iterCtrlMap = m_ControlObjectMap.begin(); iterCtrlMap != m_ControlObjectMap.end(); iterCtrlMap++)
 		{
-			CDouControlBase*  pControlBase = iterControlBase->second;
-			if ((NULL != pControlBase) && pControlBase->GetOwnerControl() == NULL)
+			CDouControlBase*  pCtrlObj = iterCtrlMap->second;
+			if ((NULL != pCtrlObj) && pCtrlObj->GetOwnerControl() == NULL)
 			{
-				pControlBase->Draw(hDC);
+				pCtrlObj->Draw(hDC);
 			}
 		}
 	}
