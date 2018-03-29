@@ -3,6 +3,8 @@
 enum DouControlType
 {
 	TypeError = -1,
+	DouText,
+	DouImage,
 	DouButton,
 	DouHyperLink,
 	DouRadioButton,

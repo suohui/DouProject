@@ -1,6 +1,8 @@
 #pragma once
 
-#define WM_DOUCONTROLCLICK WM_USER + 1024
+#define WM_DOUCONTROLCLICK	WM_USER + 1024
+#define WM_DOUCONTROLMOUSEMOVE	WM_USER + 1025
+#define WM_DOUCONTROLMOUSELEAVE	WM_USER + 1026
 typedef std::pair<String, int> StringIntPair;
 struct CmpByValue
 {
@@ -20,8 +22,8 @@ public:
 		m_TextObjectMap.clear();
 		m_ImageObjectMap.clear();
 		m_ClickedObjectMap.clear();
-		m_DouControlHover = NULL;
 		m_DouControlPress = NULL;
+		m_ControlObjectMap.clear();
 	}
 	~CDouControlImpl()
 	{
@@ -64,6 +66,7 @@ public:
 		{
 			T* pThis = static_cast<T*>(this);
 			m_TextObjectMap[strObjID] = new CDouTextObject(pThis->m_hWnd);
+			m_ControlObjectMap[strObjID] = m_TextObjectMap[strObjID];
 		}
 		return m_TextObjectMap[strObjID];
 	}
@@ -73,6 +76,7 @@ public:
 		{
 			T* pThis = static_cast<T*>(this);
 			m_ImageObjectMap[strObjID] = new CDouImageObject(pThis->m_hWnd);
+			m_ControlObjectMap[strObjID] = m_ImageObjectMap[strObjID];
 		}
 		return m_ImageObjectMap[strObjID];
 	}
@@ -82,6 +86,7 @@ public:
 		{
 			T* pThis = static_cast<T*>(this);
 			m_ClickedObjectMap[strObjID] = new CDouButtonObject(pThis->m_hWnd);
+			m_ControlObjectMap[strObjID] = m_ClickedObjectMap[strObjID];
 		}
 		return dynamic_cast<CDouButtonObject*>(m_ClickedObjectMap[strObjID]);
 	}
@@ -132,30 +137,65 @@ protected:
 	{
 		CDouControlBase* pControlBaseRet = NULL;
 		T* pThis = static_cast<T*>(this);
-		//是否落在可点击控件上
-		std::map<String, CDouControlBase*>::iterator iterControlBase;
-		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
+		//是否落在控件上
+		std::map<String, CDouControlBase*>::iterator iterObjMap;
+		for (iterObjMap = m_ControlObjectMap.begin(); iterObjMap != m_ControlObjectMap.end(); iterObjMap++)
 		{
-			CDouControlBase*  pControlBase = iterControlBase->second;	///////////////添加可见与可用的判断
-			CRect rcControlBase = pControlBase->GetControlPaintRect();
-			pControlBase->m_iLastState = pControlBase->m_iCurState;
-			if (rcControlBase.PtInRect(pt))	//落上控件上，绘制
+			CDouControlBase*  pCtrl = iterObjMap->second;	///////////////添加可见与可用的判断
+			if (pCtrl->IsControlVisible() && pCtrl->IsOwnerControlVisible())
 			{
-				DouControlType type = pControlBase->GetControlType();
-				pControlBase->m_iCurState = ctlState;
-				if (pControlBase->m_iLastState != pControlBase->m_iCurState)
-					pControlBase->DouInvalidateRect();
-				pControlBaseRet = pControlBase;
-			}
-			else
-			{
-				if (pControlBase->m_iCurState != DouControlState::Normal)
+				CRect rcCtrl = pCtrl->GetControlPaintRect();
+				switch (pCtrl->GetControlType())
 				{
-					pControlBase->DouInvalidateRect();
+				case DouControlType::DouImage:
+				{
+					CDouImageObject* pImageObj = dynamic_cast<CDouImageObject*>(pCtrl);
+					if (pImageObj->IsMouseEvent())
+					{
+						if (rcCtrl.PtInRect(pt))
+						{
+							if (pImageObj->m_iCurState != DouControlState::Hover)
+							{
+								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSEMOVE, 0, (LPARAM)pImageObj);
+								pImageObj->m_iCurState = DouControlState::Hover;
+							}
+						}
+						else
+						{
+							if (pImageObj->m_iCurState != DouControlState::Normal)
+							{
+								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSELEAVE, 0, (LPARAM)pImageObj);
+								pImageObj->m_iCurState = DouControlState::Normal;
+							}
+						}
+					}
 				}
-				pControlBase->m_iCurState = DouControlState::Normal;
-				pControlBase->m_iLastState = DouControlState::Normal;
+				break;
+				case DouControlType::DouButton:
+				case DouControlType::DouCheckBox:
+				case DouControlType::DouHyperLink:
+				case DouControlType::DouRadioButton:
+					if (rcCtrl.PtInRect(pt))
+					{
+						pCtrl->m_iLastState = pCtrl->m_iCurState;
+						pCtrl->m_iCurState = ctlState;
+						if (pCtrl->m_iLastState != pCtrl->m_iCurState)
+							pCtrl->DouInvalidateRect();
+						pControlBaseRet = pCtrl;
+					}
+					else
+					{
+						if (pCtrl->m_iCurState != DouControlState::Normal)
+						{
+							pCtrl->DouInvalidateRect();
+						}
+						pCtrl->m_iCurState = DouControlState::Normal;
+						pCtrl->m_iLastState = DouControlState::Normal;
+					}
+					break;
+				}
 			}
+			
 		}
 		return pControlBaseRet;
 	}
@@ -167,15 +207,7 @@ protected:
 		T* pThis = static_cast<T*>(this);
 		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		::ScreenToClient(pThis->m_hWnd, &pt);
-		if (NULL != m_DouControlHover && m_DouControlHover->GetControlPaintRect().PtInRect(pt))
-		{
-			//鼠标hover消息
-		}
-		else
-		{
-			m_DouControlHover = SetDouControlState(pt, DouControlState::Hover);
-		}
-
+		SetDouControlState(pt, DouControlState::Hover);
 		if (!m_bTracking)
 		{
 			TRACKMOUSEEVENT tme;
@@ -192,24 +224,16 @@ protected:
 		if (NULL != m_DouControlPress)	//按下的时候，不响应MouseMove
 			return 0;
 		m_bTracking = FALSE;
-		if (NULL != m_DouControlHover)
-		{
-			//鼠标离开的消息
-			m_DouControlHover = NULL;
-		}
-		SetDouControlState(CPoint(-1, -1), DouControlState::Normal);
+		T* pThis = static_cast<T*>(this);
+		CPoint pt;
+		GetCursorPos(&pt);
+		::ScreenToClient(pThis->m_hWnd, &pt);
+		SetDouControlState(pt, DouControlState::Normal);
 		return 0;
 	}
-
-	CDouControlBase* FindDouControl(CPoint pt)
-	{
-
-	}
-
-
+	
 	LRESULT OnNcLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled)
 	{
-		m_DouControlHover = NULL;
 		bHandled = FALSE;
 		T* pThis = static_cast<T*>(this);
 		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
@@ -243,8 +267,7 @@ private:
 	std::map<String, CDouTextObject*> m_TextObjectMap;
 	std::map<String, CDouImageObject*> m_ImageObjectMap;
 	std::map<String, CDouControlBase*> m_ClickedObjectMap;
-	CDouControlBase* m_DouControlHover;	//鼠标Hover的控件
 	CDouControlBase* m_DouControlPress;	//鼠标按下去的控件
 
-	
+	std::map<String, CDouControlBase*> m_ControlObjectMap;
 };

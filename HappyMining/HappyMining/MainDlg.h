@@ -22,6 +22,8 @@ public:
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 
 		MESSAGE_HANDLER(WM_DOUCONTROLCLICK, OnDouControlClick)
+		MESSAGE_HANDLER(WM_DOUCONTROLMOUSEMOVE, OnDouControlMouseMove)
+		MESSAGE_HANDLER(WM_DOUCONTROLMOUSELEAVE, OnDouControlMouseLeave)
 
 		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
@@ -43,6 +45,8 @@ public:
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 	LRESULT OnDouControlClick(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+	LRESULT OnDouControlMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+	LRESULT OnDouControlMouseLeave(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 
 	void CloseDialog(int nVal);
 

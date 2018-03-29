@@ -7,6 +7,8 @@ public:
 	{
 		m_uPaintStyle = DOU_CENTER | DOU_VCENTER;
 		m_bStretch = FALSE;
+		m_bEnableMouseEvent = FALSE;
+		m_ControlType = DouControlType::DouImage;
 	}
 	~CDouImageObject()
 	{
@@ -22,6 +24,11 @@ public:
 		m_uPaintStyle = uStyle;
 	}
 
+	void EnableMouseEvent(BOOL bEnableMouseEvent = TRUE)
+	{
+		m_bEnableMouseEvent = bEnableMouseEvent;
+	}
+
 	UINT GetPaintStyle()
 	{
 		return m_uPaintStyle;
@@ -30,6 +37,11 @@ public:
 	void SetStretch(BOOL bStretch = FALSE)
 	{
 		m_bStretch = bStretch;
+	}
+
+	BOOL IsMouseEvent()
+	{
+		return m_bEnableMouseEvent;
 	}
 protected:
 	void DrawControl(HDC hdc)
@@ -54,4 +66,5 @@ private:
 	UINT  m_uPaintStyle; //控件绘制样式
 	String m_strID;
 	BOOL m_bStretch;
+	BOOL m_bEnableMouseEvent;	//可以响应MouseMove、MouseLeave消息 
 };

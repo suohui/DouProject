@@ -14,6 +14,7 @@ public:
 		m_bVisible = TRUE;
 		m_bHtmlTagEnable = FALSE;
 		m_iRowHeight = CDouUtils::GetTextRowHeight();
+		m_ControlType = DouControlType::DouText;
 	}
 
 	void SetText(String strText)
