@@ -24,43 +24,46 @@ public:
 	}
 	~CDouControlImpl()
 	{
-		std::map<String, CDouControlBase*>::iterator iterControlBase;
-		for (iterControlBase = m_ControlObjectMap.begin(); iterControlBase != m_ControlObjectMap.end(); iterControlBase++)
+		std::map<String, CDouControlBase*>::iterator iterCtrlMap;
+		for (iterCtrlMap = m_ControlObjectMap.begin(); iterCtrlMap != m_ControlObjectMap.end(); iterCtrlMap++)
 		{
-			if (NULL != iterControlBase->second)
+			if (NULL != iterCtrlMap->second)
 			{
-				delete iterControlBase->second;
-				iterControlBase->second = NULL;
+				delete iterCtrlMap->second;
+				iterCtrlMap->second = NULL;
 			}
 		}
 		m_ControlObjectMap.clear();
 	}
 	CDouTextObject* GetTextObject(String strObjID)	//仿FileOpen，如果没有，则创建。如果有，则直接返回
 	{
-		if (m_ControlObjectMap[strObjID] == NULL)
+		String strNewObjID = _T("DouText.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_ControlObjectMap[strObjID] = new CDouTextObject(pThis->m_hWnd);
+			m_ControlObjectMap[strNewObjID] = new CDouTextObject(pThis->m_hWnd);
 		}
-		return dynamic_cast<CDouTextObject*>(m_ControlObjectMap[strObjID]);
+		return dynamic_cast<CDouTextObject*>(m_ControlObjectMap[strNewObjID]);
 	}
 	CDouImageObject* GetImageObject(String strObjID)
 	{
-		if (m_ControlObjectMap[strObjID] == NULL)
+		String strNewObjID = _T("DouImage.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_ControlObjectMap[strObjID] = new CDouImageObject(pThis->m_hWnd);
+			m_ControlObjectMap[strNewObjID] = new CDouImageObject(pThis->m_hWnd);
 		}
-		return dynamic_cast<CDouImageObject*>(m_ControlObjectMap[strObjID]);
+		return dynamic_cast<CDouImageObject*>(m_ControlObjectMap[strNewObjID]);
 	}
 	CDouButtonObject* GetButtonObject(String strObjID)
 	{
-		if (m_ControlObjectMap[strObjID] == NULL)
+		String strNewObjID = _T("DouButton.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_ControlObjectMap[strObjID] = new CDouButtonObject(pThis->m_hWnd);
+			m_ControlObjectMap[strNewObjID] = new CDouButtonObject(pThis->m_hWnd);
 		}
-		return dynamic_cast<CDouButtonObject*>(m_ControlObjectMap[strObjID]);
+		return dynamic_cast<CDouButtonObject*>(m_ControlObjectMap[strNewObjID]);
 	}
 
 	void DrawAllObject(HDC hDC)

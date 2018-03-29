@@ -78,40 +78,38 @@ void CMainDlg::InitDialog()
 
 	//列表头
 	CDouImageObject *pHeaderObject = GetImageObject(L"SheetHeader");
-	//pHeaderObject->SetImageResID(_T("MainWnd.Bkg.Titlebar"));
-	//pHeaderObject->SetStretch(TRUE);
 	pHeaderObject->SetControlRect(0, 56, 681, 40);
 
-	//pTextObj = GetTextObject(L"Currency");
-	//pTextObj->SetText(L"Currency");
-	//pTextObj->SetControlRect(m_iCurrencyLeft, 0, 116, 40);
-	//pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
-	//pTextObj->SetTextFontID(_T("Font14"));
-	//pTextObj->SetPaintStyle(DOU_VCENTER);
-	//pTextObj->SetOwnerControl(pHeaderObject);
+	pTextObj = GetTextObject(L"Currency");
+	pTextObj->SetText(L"Currency");
+	pTextObj->SetControlRect(m_iCurrencyLeft, 0, 116, 40);
+	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
+	pTextObj->SetTextFontID(_T("Font14"));
+	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetOwnerControl(pHeaderObject);
 
-	//pTextObj = GetTextObject(L"Price");
-	//pTextObj->SetText(L"Balance / Price");
-	//pTextObj->SetControlRect(m_iPriceLeft, 0, 116, 40);
-	//pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
-	//pTextObj->SetTextFontID(_T("Font14"));
-	//pTextObj->SetPaintStyle(DOU_VCENTER);
-	//pTextObj->SetOwnerControl(pHeaderObject);
+	pTextObj = GetTextObject(L"Price");
+	pTextObj->SetText(L"Balance / Price");
+	pTextObj->SetControlRect(m_iPriceLeft, 0, 116, 40);
+	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
+	pTextObj->SetTextFontID(_T("Font14"));
+	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetOwnerControl(pHeaderObject);
 
-	//pTextObj = GetTextObject(L"Speed");
-	//pTextObj->SetText(L"Speed");
-	//pTextObj->SetControlRect(m_iSpeedLeft, 0, 116, 40);
-	//pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
-	//pTextObj->SetTextFontID(_T("Font14"));
-	//pTextObj->SetPaintStyle(DOU_VCENTER);
-	//pTextObj->SetOwnerControl(pHeaderObject);
+	pTextObj = GetTextObject(L"Speed");
+	pTextObj->SetText(L"Speed");
+	pTextObj->SetControlRect(m_iSpeedLeft, 0, 116, 40);
+	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
+	pTextObj->SetTextFontID(_T("Font14"));
+	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetOwnerControl(pHeaderObject);
 
 	//第一个Panel
-	//SetCurrencyPanel(_T("ETC"), 56 + 40, DouControlState::Hover);
-	//SetCurrencyLogo(_T("ETC"), _T("Ethereum Classic"), DouControlState::Hover);
-	//SetCurrencyPrice(_T("ETC"), L"0.00826479", L"29.880", DouControlState::Hover);
-	//SetCurrencySpeed(_T("ETC"), L"0.00826479", L"29", DouControlState::Hover);
-	//SetCurrencyButton(_T("ETC"), DouControlState::Hover);
+	SetCurrencyPanel(_T("ETC"), 56 + 40, DouControlState::Hover);
+	SetCurrencyLogo(_T("ETC"), _T("Ethereum Classic"), DouControlState::Hover);
+	SetCurrencyPrice(_T("ETC"), L"0.00826479", L"29.880", DouControlState::Hover);
+	SetCurrencySpeed(_T("ETC"), L"0.00826479", L"29", DouControlState::Hover);
+	SetCurrencyButton(_T("ETC"), DouControlState::Hover);
 
 	//第二个Panel
 	SetCurrencyPanel(_T("ZEC"), 56 + 40 + 64);
@@ -121,11 +119,11 @@ void CMainDlg::InitDialog()
 	SetCurrencyButton(_T("ZEC"));
 
 	//第三个Panel
-	//SetCurrencyPanel(_T("XMR"), 56 + 40 + 64 + 64, DouControlState::Press);
-	//SetCurrencyLogo(_T("XMR"), _T("MONERO"), DouControlState::Press);
-	//SetCurrencyPrice(_T("XMR"), L"0.78", L"25.880", DouControlState::Press);
-	//SetCurrencySpeed(_T("XMR"), L"0.78", L"25", DouControlState::Press);
-	//SetCurrencyButton(_T("XMR"), DouControlState::Press);
+	SetCurrencyPanel(_T("XMR"), 56 + 40 + 64 + 64, DouControlState::Press);
+	SetCurrencyLogo(_T("XMR"), _T("MONERO"), DouControlState::Press);
+	SetCurrencyPrice(_T("XMR"), L"0.78", L"25.880", DouControlState::Press);
+	SetCurrencySpeed(_T("XMR"), L"0.78", L"25", DouControlState::Press);
+	SetCurrencyButton(_T("XMR"), DouControlState::Press);
 
 	//底部状态栏
 	CDouImageObject *pStatusObject = GetImageObject(L"StatusBar");
