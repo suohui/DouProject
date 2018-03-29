@@ -19,38 +19,13 @@ public:
 	CDouControlImpl()
 	{
 		m_bTracking = FALSE;
-		m_TextObjectMap.clear();
-		m_ImageObjectMap.clear();
-		m_ClickedObjectMap.clear();
 		m_DouControlPress = NULL;
 		m_ControlObjectMap.clear();
 	}
 	~CDouControlImpl()
 	{
-		std::map<String, CDouTextObject*>::iterator iterText;
-		for (iterText = m_TextObjectMap.begin(); iterText != m_TextObjectMap.end(); iterText++)
-		{
-			if (NULL != iterText->second)
-			{
-				delete iterText->second;
-				iterText->second = NULL;
-			}
-		}
-		m_TextObjectMap.clear();
-
-		std::map<String, CDouImageObject*>::iterator iterImage;
-		for (iterImage = m_ImageObjectMap.begin(); iterImage != m_ImageObjectMap.end(); iterImage++)
-		{
-			if (NULL != iterImage->second)
-			{
-				delete iterImage->second;
-				iterImage->second = NULL;
-			}
-		}
-		m_ImageObjectMap.clear();
-
 		std::map<String, CDouControlBase*>::iterator iterControlBase;
-		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
+		for (iterControlBase = m_ControlObjectMap.begin(); iterControlBase != m_ControlObjectMap.end(); iterControlBase++)
 		{
 			if (NULL != iterControlBase->second)
 			{
@@ -58,70 +33,45 @@ public:
 				iterControlBase->second = NULL;
 			}
 		}
-		m_ClickedObjectMap.clear();
+		m_ControlObjectMap.clear();
 	}
 	CDouTextObject* GetTextObject(String strObjID)	//仿FileOpen，如果没有，则创建。如果有，则直接返回
 	{
-		if (m_TextObjectMap[strObjID] == NULL)
+		if (m_ControlObjectMap[strObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_TextObjectMap[strObjID] = new CDouTextObject(pThis->m_hWnd);
-			m_ControlObjectMap[strObjID] = m_TextObjectMap[strObjID];
+			m_ControlObjectMap[strObjID] = new CDouTextObject(pThis->m_hWnd);
 		}
-		return m_TextObjectMap[strObjID];
+		return dynamic_cast<CDouTextObject*>(m_ControlObjectMap[strObjID]);
 	}
 	CDouImageObject* GetImageObject(String strObjID)
 	{
-		if (m_ImageObjectMap[strObjID] == NULL)
+		if (m_ControlObjectMap[strObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_ImageObjectMap[strObjID] = new CDouImageObject(pThis->m_hWnd);
-			m_ControlObjectMap[strObjID] = m_ImageObjectMap[strObjID];
+			m_ControlObjectMap[strObjID] = new CDouImageObject(pThis->m_hWnd);
 		}
-		return m_ImageObjectMap[strObjID];
+		return dynamic_cast<CDouImageObject*>(m_ControlObjectMap[strObjID]);
 	}
 	CDouButtonObject* GetButtonObject(String strObjID)
 	{
-		if (m_ClickedObjectMap[strObjID] == NULL)
+		if (m_ControlObjectMap[strObjID] == NULL)
 		{
 			T* pThis = static_cast<T*>(this);
-			m_ClickedObjectMap[strObjID] = new CDouButtonObject(pThis->m_hWnd);
-			m_ControlObjectMap[strObjID] = m_ClickedObjectMap[strObjID];
+			m_ControlObjectMap[strObjID] = new CDouButtonObject(pThis->m_hWnd);
 		}
-		return dynamic_cast<CDouButtonObject*>(m_ClickedObjectMap[strObjID]);
+		return dynamic_cast<CDouButtonObject*>(m_ControlObjectMap[strObjID]);
 	}
 
 	void DrawAllObject(HDC hDC)
 	{
-		//画图片
-		std::map<String, CDouImageObject*>::iterator iterImage;
-		std::vector<StringIntPair> vecZorder;
-		for (iterImage = m_ImageObjectMap.begin(); iterImage != m_ImageObjectMap.end(); iterImage++)
-		{
-			CDouImageObject* pImageObject = iterImage->second;
-			if ((NULL != pImageObject) && pImageObject->GetOwnerControl() == NULL)
-			{
-				pImageObject->Draw(hDC);
-			}
-		}
-		//画Button
 		std::map<String, CDouControlBase*>::iterator iterControlBase;
-		for (iterControlBase = m_ClickedObjectMap.begin(); iterControlBase != m_ClickedObjectMap.end(); iterControlBase++)
+		for (iterControlBase = m_ControlObjectMap.begin(); iterControlBase != m_ControlObjectMap.end(); iterControlBase++)
 		{
 			CDouControlBase*  pControlBase = iterControlBase->second;
 			if ((NULL != pControlBase) && pControlBase->GetOwnerControl() == NULL)
 			{
 				pControlBase->Draw(hDC);
-			}
-		}
-		//画文字
-		std::map<String, CDouTextObject*>::iterator iterText;
-		for (iterText = m_TextObjectMap.begin(); iterText != m_TextObjectMap.end(); iterText++)
-		{
-			CDouTextObject* pTextInfo = iterText->second;
-			if ((NULL != pTextInfo) && pTextInfo->GetOwnerControl() == NULL)
-			{
-				pTextInfo->Draw(hDC);
 			}
 		}
 	}
@@ -133,7 +83,7 @@ public:
 		MESSAGE_HANDLER(WM_LBUTTONUP, OnLButtonUp)
 	END_MSG_MAP()
 protected:
-	CDouControlBase * SetDouControlState(CPoint pt, DouControlState ctlState)
+	CDouControlBase * SetDouControlState(CPoint pt, DouControlState ctlState = DouControlState::Normal)
 	{
 		CDouControlBase* pControlBaseRet = NULL;
 		T* pThis = static_cast<T*>(this);
@@ -156,16 +106,16 @@ protected:
 						{
 							if (pImageObj->m_iCurState != DouControlState::Hover)
 							{
-								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSEMOVE, 0, (LPARAM)pImageObj);
 								pImageObj->m_iCurState = DouControlState::Hover;
+								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSEMOVE, 0, (LPARAM)pImageObj);
 							}
 						}
 						else
 						{
 							if (pImageObj->m_iCurState != DouControlState::Normal)
 							{
-								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSELEAVE, 0, (LPARAM)pImageObj);
 								pImageObj->m_iCurState = DouControlState::Normal;
+								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSELEAVE, 0, (LPARAM)pImageObj);
 							}
 						}
 					}
@@ -177,25 +127,29 @@ protected:
 				case DouControlType::DouRadioButton:
 					if (rcCtrl.PtInRect(pt))
 					{
-						pCtrl->m_iLastState = pCtrl->m_iCurState;
-						pCtrl->m_iCurState = ctlState;
-						if (pCtrl->m_iLastState != pCtrl->m_iCurState)
+						if (ctlState == DouControlState::Press)
+						{
+							pCtrl->m_iCurState = DouControlState::Press;
 							pCtrl->DouInvalidateRect();
-						pControlBaseRet = pCtrl;
+							pControlBaseRet = pCtrl;
+						}
+						else if (pCtrl->m_iCurState != DouControlState::Hover)
+						{
+							pCtrl->m_iCurState = DouControlState::Hover;
+							pCtrl->DouInvalidateRect();
+						}
 					}
 					else
 					{
 						if (pCtrl->m_iCurState != DouControlState::Normal)
 						{
+							pCtrl->m_iCurState = DouControlState::Normal;
 							pCtrl->DouInvalidateRect();
 						}
-						pCtrl->m_iCurState = DouControlState::Normal;
-						pCtrl->m_iLastState = DouControlState::Normal;
 					}
 					break;
 				}
 			}
-			
 		}
 		return pControlBaseRet;
 	}
@@ -205,18 +159,18 @@ protected:
 		if (NULL != m_DouControlPress)	//按下的时候，不响应MouseMove
 			return 0;
 		T* pThis = static_cast<T*>(this);
-		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		::ScreenToClient(pThis->m_hWnd, &pt);
-		SetDouControlState(pt, DouControlState::Hover);
 		if (!m_bTracking)
 		{
 			TRACKMOUSEEVENT tme;
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.dwFlags = TME_LEAVE | TME_HOVER | TME_NONCLIENT;
-			tme.dwHoverTime = 10;
+			tme.dwHoverTime = 1;
 			tme.hwndTrack = pThis->m_hWnd;
 			m_bTracking = ::_TrackMouseEvent(&tme);
 		}
+		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		::ScreenToClient(pThis->m_hWnd, &pt);
+		SetDouControlState(pt, DouControlState::Hover);
 		return 0;
 	}
 	LRESULT OnNcMouseLeave(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -247,27 +201,25 @@ protected:
 		}
 		return 0;
 	}
+
 	LRESULT OnLButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
 	{
-		ReleaseCapture();
-		T* pThis = static_cast<T*>(this);
-		CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		if (NULL != m_DouControlPress && m_DouControlPress->GetControlPaintRect().PtInRect(pt))
-		{
-			//鼠标点击消息
-			::SendMessage(pThis->m_hWnd, WM_DOUCONTROLCLICK, 0, (LPARAM)m_DouControlPress);
-		}
+		CDouControlBase* pCtrlPressTmp = m_DouControlPress;
 		m_DouControlPress = NULL;
-		SetDouControlState(pt, DouControlState::Normal);
-
+		::ReleaseCapture();
+		T* pThis = static_cast<T*>(this);
+		CPoint ptCursor(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		if (NULL != pCtrlPressTmp && pCtrlPressTmp->GetControlPaintRect().PtInRect(ptCursor))
+		{
+			::SendMessage(pThis->m_hWnd, WM_DOUCONTROLCLICK, 0, (LPARAM)pCtrlPressTmp);//鼠标点击消息
+		}
+		::GetCursorPos(&ptCursor);
+		::ScreenToClient(pThis->m_hWnd, &ptCursor);
+		SetDouControlState(ptCursor, DouControlState::Normal);
 		return 0;
 	}
 private:
 	BOOL m_bTracking;
-	std::map<String, CDouTextObject*> m_TextObjectMap;
-	std::map<String, CDouImageObject*> m_ImageObjectMap;
-	std::map<String, CDouControlBase*> m_ClickedObjectMap;
 	CDouControlBase* m_DouControlPress;	//鼠标按下去的控件
-
 	std::map<String, CDouControlBase*> m_ControlObjectMap;
 };

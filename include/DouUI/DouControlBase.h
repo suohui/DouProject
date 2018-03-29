@@ -27,7 +27,6 @@ public:
 		m_hWnd = hWnd;
 		m_bVisible = TRUE;
 		m_ControlType = DouControlType::TypeError;
-		m_iLastState = DouControlState::Normal;
 		m_iCurState = DouControlState::Normal;
 		m_pOwnerCtrl = NULL;
 	}
@@ -107,8 +106,6 @@ public:
 			}
 		}
 	}
-
-	DouControlState m_iLastState;
 	DouControlState m_iCurState;
 protected:
 	virtual void DrawControl(HDC hdc)

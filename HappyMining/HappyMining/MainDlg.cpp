@@ -46,14 +46,15 @@ void CMainDlg::InitDialog()
 
 	SetBkgndColorID(L"system.white");
 
+	CDouImageObject *pTitlebar = GetImageObject(L"Titlebar");
+	pTitlebar->SetImageResID(L"MainWnd.Bkg.Titlebar");
+	pTitlebar->SetControlRect(0, 0, 681, 56);
+
 	CDouTextObject *pTextObj = GetTextObject(L"Title");
 	pTextObj->SetText(L"我是标题");
 	pTextObj->SetControlRect(300, 0, 50, 20);
 	pTextObj->SetTextColorID(L"color.textlink.normal");
-
-	CDouImageObject *pTitlebar = GetImageObject(L"Titlebar");
-	pTitlebar->SetImageResID(L"MainWnd.Bkg.Titlebar");
-	pTitlebar->SetControlRect(0, 0, 681, 56);
+	pTextObj->SetOwnerControl(pTitlebar);
 
 	CDouImageObject *pLogo = GetImageObject(L"Logo");
 	pLogo->SetImageResID(L"MainWnd.Logo");
