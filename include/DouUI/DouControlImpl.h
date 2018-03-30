@@ -162,6 +162,7 @@ protected:
 				case DouControlType::DouRadioButton:
 					if (rcCtrl.PtInRect(pt))
 					{
+						::SetCursor(::LoadCursor(NULL,IDC_HAND));
 						if (ctlState == DouControlState::Press)
 						{
 							pCtrl->m_iCurState = DouControlState::Press;
@@ -178,6 +179,7 @@ protected:
 					{
 						if (pCtrl->m_iCurState != DouControlState::Normal)
 						{
+							::SetCursor(::LoadCursor(NULL, IDC_ARROW));
 							pCtrl->m_iCurState = DouControlState::Normal;
 							pCtrl->DouInvalidateRect();
 						}

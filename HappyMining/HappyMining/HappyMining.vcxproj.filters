@@ -107,6 +107,12 @@
     <ClInclude Include="..\..\include\DouUI\DouTextObject.h">
       <Filter>DouUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextInfoBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouImageInfoBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HappyMining.rc">

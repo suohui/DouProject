@@ -88,7 +88,7 @@ void CMainDlg::InitDialog()
 	pTextObj->SetControlRect(m_iCurrencyLeft, 0, 116, 40);
 	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
 	pTextObj->SetTextFontID(_T("Font14"));
-	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetTextPaintStyle(DOU_VCENTER);
 	pTextObj->SetOwnerControl(pHeaderObject);
 
 	pTextObj = GetTextObject(L"Price");
@@ -96,7 +96,7 @@ void CMainDlg::InitDialog()
 	pTextObj->SetControlRect(m_iPriceLeft, 0, 116, 40);
 	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
 	pTextObj->SetTextFontID(_T("Font14"));
-	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetTextPaintStyle(DOU_VCENTER);
 	pTextObj->SetOwnerControl(pHeaderObject);
 
 	pTextObj = GetTextObject(L"Speed");
@@ -104,7 +104,7 @@ void CMainDlg::InitDialog()
 	pTextObj->SetControlRect(m_iSpeedLeft, 0, 116, 40);
 	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));
 	pTextObj->SetTextFontID(_T("Font14"));
-	pTextObj->SetPaintStyle(DOU_VCENTER);
+	pTextObj->SetTextPaintStyle(DOU_VCENTER);
 	pTextObj->SetOwnerControl(pHeaderObject);
 
 	//第一个Panel
@@ -131,7 +131,7 @@ void CMainDlg::InitDialog()
 	//底部状态栏
 	CDouImageObject *pStatusObject = GetImageObject(L"StatusBar");
 	pStatusObject->SetImageResID(_T("MainWnd.Bkg.PanelSelect"));
-	pStatusObject->SetStretch(TRUE);
+	pStatusObject->SetImageStretch(TRUE);
 	pStatusObject->SetControlRect(0, 451-32, 681, 32);
 }
 
@@ -139,7 +139,7 @@ void CMainDlg::SetCurrencyPanel(String strCurrency, int iPanelTop, DouControlSta
 {
 	CDouImageObject *pPanel = GetImageObject(strCurrency + _T(".Panel"));
 	pPanel->EnableMouseEvent(TRUE);
-	pPanel->SetStretch(TRUE);
+	pPanel->SetImageStretch(TRUE);
 	switch (enumState)
 	{
 	case Hover:
@@ -178,7 +178,7 @@ void CMainDlg::SetCurrencyLogo(String strCurrency, String strDescription, DouCon
 	if (pDescriptionTextObject->GetOwnerControl() == NULL)
 	{
 		pDescriptionTextObject->SetControlRect(m_iCurrencyDescriptionLeft, 20, 118, 32);
-		pDescriptionTextObject->SetPaintStyle(DOU_BOTTOM);
+		pDescriptionTextObject->SetTextPaintStyle(DOU_BOTTOM);
 		pDescriptionTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
 	}
 	switch (enumState)
@@ -220,7 +220,7 @@ void CMainDlg::SetCurrencyPrice(String strCurrency, String strBalance, String st
 	if (pPriceTextObject->GetOwnerControl() == NULL)
 	{
 		pPriceTextObject->SetControlRect(m_iPriceLeft, 20, 116, 32);
-		pPriceTextObject->SetPaintStyle(DOU_BOTTOM);
+		pPriceTextObject->SetTextPaintStyle(DOU_BOTTOM);
 		pPriceTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
 	}
 	switch (enumState)
@@ -266,7 +266,7 @@ void CMainDlg::SetCurrencySpeed(String strCurrency, String strDaySpeed, String s
 		pCurSpeedTextObject->SetTextFontID(_T("Font14.B"));
 		pCurSpeedTextObject->SetTextColorID(_T("MainPanel.Currency.Minor"));
 		pCurSpeedTextObject->SetControlRect(m_iSpeedLeft, 20, 132, 32);
-		pCurSpeedTextObject->SetPaintStyle(DOU_BOTTOM);
+		pCurSpeedTextObject->SetTextPaintStyle(DOU_BOTTOM);
 		pCurSpeedTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
 	}
 

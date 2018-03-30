@@ -26,6 +26,8 @@
 #include "DouRender.h"
 
 #include "DouControlBase.h"
+#include "DouTextInfoBase.h"
+#include "DouImageInfoBase.h"
 #include "DouImageObject.h"
 #include "DouTextObject.h"
 #include "DouTextLinkObject.h"

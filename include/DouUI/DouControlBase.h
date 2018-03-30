@@ -2,11 +2,15 @@
 //控件类型
 enum DouControlType
 {
-	TypeError = -1,
-	DouText,
-	DouImage,
-	DouButton,
-	DouTextLink,
+	TypeError = -1,//错误控件，控件实现类都要声明自己的控件类型
+	DouText,	//文本控件，仅展示
+	DouTextLink,//文字链控件，响应点击
+	DouImage,	//单态图片控件，仅展示
+	DouImageEx,	//二态图片控件，响应MouseMove、MouseLeave
+	DouColor,	//单态颜色控件，仅展示
+	DouColorEx,	//二态颜色控件，响应MouseMove、MouseLeave
+	DouButton,	//按钮控件，响应点击
+	DouColorButton,//颜色按钮控件，响应点击
 	DouRadioButton,
 	DouCheckBox
 };
