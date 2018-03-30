@@ -65,17 +65,17 @@ void CMainDlg::InitDialog()
 	pLogo->SetOwnerControl(pTitlebar);
 
 	CDouButtonObject *pBtnObj = GetButtonObject(L"Menu");
-	pBtnObj->SetStandardResID(L"MainWnd.Btn.Menu");
+	pBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Menu");
 	pBtnObj->SetControlRect(681 - 12 - 6 * 2 - 28 * 3, 14, 28, 28);
 	pBtnObj->SetOwnerControl(pTitlebar);
 
 	pBtnObj = GetButtonObject(L"Min");
-	pBtnObj->SetStandardResID(L"MainWnd.Btn.Min");
+	pBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Min");
 	pBtnObj->SetControlRect(681 - 12 - 6 * 1 - 28 * 2, 14, 28, 28);
 	pBtnObj->SetOwnerControl(pTitlebar);
 
 	pBtnObj = GetButtonObject(L"Close");
-	pBtnObj->SetStandardResID(L"MainWnd.Btn.Close");
+	pBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Close");
 	pBtnObj->SetControlRect(681 - 12 - 28, 14, 28, 28);
 	pBtnObj->SetOwnerControl(pTitlebar);
 
@@ -286,7 +286,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	CDouButtonObject* pStartBtnObj = GetButtonObject(strCurrency + L".Btn.Start");
 	if (pStartBtnObj->GetOwnerControl() == NULL)
 	{
-		pStartBtnObj->SetStandardResID(L"MainWnd.Btn.Start");
+		pStartBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Start");
 		pStartBtnObj->SetControlRect(681 - 34 - 28 * 2 - 15, 18, 28, 28);
 		pStartBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
@@ -294,7 +294,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	CDouButtonObject* pPauseBtnObj = GetButtonObject(strCurrency + L".Btn.Pause");
 	if (pPauseBtnObj->GetOwnerControl() == NULL)
 	{
-		pPauseBtnObj->SetStandardResID(L"MainWnd.Btn.Pause");
+		pPauseBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Pause");
 		pPauseBtnObj->SetControlRect(681 - 34 - 28 * 2 - 15, 18, 28, 28);
 		pPauseBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
@@ -302,7 +302,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	CDouButtonObject* pWidthdrawalBtnObj = GetButtonObject(strCurrency + L".Btn.Withdrawal");
 	if (pWidthdrawalBtnObj->GetOwnerControl() == NULL)
 	{
-		pWidthdrawalBtnObj->SetStandardResID(L"MainWnd.Btn.Withdrawal");
+		pWidthdrawalBtnObj->SetButtonStandardResID(L"MainWnd.Btn.Withdrawal");
 		pWidthdrawalBtnObj->SetControlRect(681 - 34 - 28, 18, 28, 28);
 		pWidthdrawalBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}

@@ -1,6 +1,6 @@
 #pragma once
 
-class CDouButtonObject : public CDouControlBase
+class CDouButtonObject : public CDouControlBase, public CDouButtonFourStateAttr
 {
 public:
 	CDouButtonObject(HWND hWndOwner) : CDouControlBase(hWndOwner)
@@ -10,36 +10,26 @@ public:
 	~CDouButtonObject()
 	{
 	}
-	//标准资源ID，自动在后面添加状态（状态小写）
-	void SetStandardResID(String strResID)
-	{
-		SetNormalResID(strResID + _T(".normal"));
-		SetHoverResID(strResID + _T(".hover"));
-		SetPressResID(strResID + _T(".press"));
-		SetDisableResID(strResID + _T(".disable"));
-	}
 
-	void SetNormalResID(String strResID)
-	{
-		m_strBkgResID[0] = strResID;
-	}
-	void SetHoverResID(String strResID)
-	{
-		m_strBkgResID[1] = strResID;
-	}
-	void SetPressResID(String strResID)
-	{
-		m_strBkgResID[2] = strResID;
-	}
-	void SetDisableResID(String strResID)
-	{
-		m_strBkgResID[3] = strResID;
-	}
 protected:
 	void DrawControl(HDC hdc)
 	{
-		CDouRender::DrawImage(hdc, GetControlPaintRect(), gBmpManager.GetBmpSrcInfo(m_strBkgResID[m_iCurState]), true);
+		String strBkgImageResID;
+		switch (m_iCurState)
+		{
+		case Hover:
+			strBkgImageResID = GetButtonHoverResID();
+			break;
+		case Press:
+			strBkgImageResID = GetButtonPressResID();
+			break;
+		case Disable:
+			strBkgImageResID = GetButtonDisableResID();
+			break;
+		default:
+			strBkgImageResID = GetButtonNormalResID();
+			break;
+		}
+		CDouRender::DrawImage(hdc, GetControlPaintRect(), gBmpManager.GetBmpSrcInfo(strBkgImageResID), IsButtonStretch());
 	}
-private:
-	String m_strBkgResID[4];
 };
