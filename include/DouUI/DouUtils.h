@@ -40,21 +40,21 @@ public:
 	{
 		return _T("default.font");
 	}
-	static DWORD GetTextNormalColor()	//获取文字Normal色
+	static String GetTextNormalColorID()	//获取文字Normal色
 	{
-		return 0;
+		return _T("color.textlink.normal");
 	}
-	static DWORD GetTextHoverColor()	//获取文字Hover色
+	static String GetTextHoverColorID()	//获取文字Hover色
 	{
-		return 0;
+		return _T("color.textlink.normal");
 	}
-	static DWORD GetTextPressColor()	//获取文字Press色
+	static String GetTextPressColorID()	//获取文字Press色
 	{
-		return 0;
+		return _T("color.textlink.normal");
 	}
-	static DWORD GetTextDisabledColor()	//获取文字Disabled色
+	static String GetTextDisabledColorID()	//获取文字Disabled色
 	{
-		return 0;
+		return _T("color.textlink.normal");
 	}
 	static UINT GetTextFormatStyle()	//获取文本绘制样式
 	{

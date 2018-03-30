@@ -89,9 +89,6 @@
     <ClInclude Include="..\..\include\DouUI\DouZipUtils.h">
       <Filter>DouUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\DouUI\DouTextObject.h">
-      <Filter>DouUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\DouUI\DouFontManager.h">
       <Filter>DouUI</Filter>
     </ClInclude>
@@ -102,6 +99,12 @@
       <Filter>DouUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\DouUI\DouColorManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextLinkObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextObject.h">
       <Filter>DouUI</Filter>
     </ClInclude>
   </ItemGroup>

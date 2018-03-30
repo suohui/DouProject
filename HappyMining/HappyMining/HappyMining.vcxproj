@@ -231,6 +231,7 @@
     <ClInclude Include="..\..\include\DouUI\DouFontManager.h" />
     <ClInclude Include="..\..\include\DouUI\DouImageObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouRender.h" />
+    <ClInclude Include="..\..\include\DouUI\DouTextLinkObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouTextObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouUI.h" />
     <ClInclude Include="..\..\include\DouUI\DouUtils.h" />

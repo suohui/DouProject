@@ -45,6 +45,16 @@ public:
 		}
 		return dynamic_cast<CDouTextObject*>(m_ControlObjectMap[strNewObjID]);
 	}
+	CDouTextLinkObject* GetTextLinkObject(String strObjID)	//仿FileOpen，如果没有，则创建。如果有，则直接返回
+	{
+		String strNewObjID = _T("DouTextLink.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
+		{
+			T* pThis = static_cast<T*>(this);
+			m_ControlObjectMap[strNewObjID] = new CDouTextLinkObject(pThis->m_hWnd);
+		}
+		return dynamic_cast<CDouTextLinkObject*>(m_ControlObjectMap[strNewObjID]);
+	}
 	CDouImageObject* GetImageObject(String strObjID)
 	{
 		String strNewObjID = _T("DouImage.") + strObjID;
@@ -148,7 +158,7 @@ protected:
 				break;
 				case DouControlType::DouButton:
 				case DouControlType::DouCheckBox:
-				case DouControlType::DouHyperLink:
+				case DouControlType::DouTextLink:
 				case DouControlType::DouRadioButton:
 					if (rcCtrl.PtInRect(pt))
 					{

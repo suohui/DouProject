@@ -6,7 +6,7 @@ enum DouControlType
 	DouText,
 	DouImage,
 	DouButton,
-	DouHyperLink,
+	DouTextLink,
 	DouRadioButton,
 	DouCheckBox
 };

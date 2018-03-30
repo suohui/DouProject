@@ -50,11 +50,14 @@ void CMainDlg::InitDialog()
 	pTitlebar->SetImageResID(L"MainWnd.Bkg.Titlebar");
 	pTitlebar->SetControlRect(0, 0, 681, 56);
 
-	CDouTextObject *pTextObj = GetTextObject(L"Title");
-	pTextObj->SetText(L"我是标题");
-	pTextObj->SetControlRect(300, 0, 50, 20);
-	pTextObj->SetTextColorID(L"color.textlink.normal");
-	pTextObj->SetOwnerControl(pTitlebar);
+	CDouTextLinkObject *pTextLinkObj = GetTextLinkObject(L"Title");
+	pTextLinkObj->SetText(L"我是标题");
+	pTextLinkObj->SetControlRect(300, 0, 100, 20);
+	pTextLinkObj->SetTextNormalFontID(_T("Font14"));
+	pTextLinkObj->SetTextHoverFontID(_T("Font14.U"));
+	pTextLinkObj->SetTextPressFontID(_T("Font14.U"));
+	pTextLinkObj->SetTextNormalColorID(L"color.textlink.normal");
+	pTextLinkObj->SetOwnerControl(pTitlebar);
 
 	CDouImageObject *pLogo = GetImageObject(L"Logo");
 	pLogo->SetImageResID(L"MainWnd.Logo");
@@ -80,7 +83,7 @@ void CMainDlg::InitDialog()
 	CDouImageObject *pHeaderObject = GetImageObject(L"SheetHeader");
 	pHeaderObject->SetControlRect(0, 56, 681, 40);
 
-	pTextObj = GetTextObject(L"Currency");
+	CDouTextObject* pTextObj = GetTextObject(L"Currency");
 	pTextObj->SetText(L"Currency");
 	pTextObj->SetControlRect(m_iCurrencyLeft, 0, 116, 40);
 	pTextObj->SetTextColorID(_T("MainPanel.Currency.Minor"));

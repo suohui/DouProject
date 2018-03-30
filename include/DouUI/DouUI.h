@@ -28,6 +28,7 @@
 #include "DouControlBase.h"
 #include "DouImageObject.h"
 #include "DouTextObject.h"
+#include "DouTextLinkObject.h"
 #include "DouButtonObject.h"
 
 #include "DouControlImpl.h"

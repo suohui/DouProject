@@ -15,6 +15,7 @@ protected:
 		} arrFontInfo[] = {
 			{ _T("default.font"), 12, FALSE, FALSE, FALSE },
 		{ _T("Font14"), 14, FALSE, FALSE, FALSE },
+		{ _T("Font14.U"), 14, FALSE, TRUE, FALSE },
 		{ _T("Font14.B"), 14, TRUE, FALSE, FALSE },
 		};
 
