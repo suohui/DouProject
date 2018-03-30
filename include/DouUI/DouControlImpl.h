@@ -65,6 +65,16 @@ public:
 		}
 		return dynamic_cast<CDouImageObject*>(m_ControlObjectMap[strNewObjID]);
 	}
+	CDouImageExObject* GetImageExObject(String strObjID)
+	{
+		String strNewObjID = _T("DouImageEx.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
+		{
+			T* pThis = static_cast<T*>(this);
+			m_ControlObjectMap[strNewObjID] = new CDouImageExObject(pThis->m_hWnd);
+		}
+		return dynamic_cast<CDouImageExObject*>(m_ControlObjectMap[strNewObjID]);
+	}
 	CDouButtonObject* GetButtonObject(String strObjID)
 	{
 		String strNewObjID = _T("DouButton.") + strObjID;
@@ -132,26 +142,24 @@ protected:
 				CRect rcCtrl = pCtrl->GetControlPaintRect();
 				switch (pCtrl->GetControlType())
 				{
-				case DouControlType::DouImage:
+				case DouControlType::DouImageEx:
 				{
-					CDouImageObject* pImageObj = dynamic_cast<CDouImageObject*>(pCtrl);
-					if (pImageObj->IsMouseEvent())
+					if (rcCtrl.PtInRect(pt))
 					{
-						if (rcCtrl.PtInRect(pt))
+						if (pCtrl->m_iCurState != DouControlState::Hover)
 						{
-							if (pImageObj->m_iCurState != DouControlState::Hover)
-							{
-								pImageObj->m_iCurState = DouControlState::Hover;
-								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSEMOVE, 0, (LPARAM)pImageObj);
-							}
+							pCtrl->m_iCurState = DouControlState::Hover;
+							pCtrl->DouInvalidateRect();
+							::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSEMOVE, 0, (LPARAM)pCtrl);
 						}
-						else
+					}
+					else
+					{
+						if (pCtrl->m_iCurState != DouControlState::Normal)
 						{
-							if (pImageObj->m_iCurState != DouControlState::Normal)
-							{
-								pImageObj->m_iCurState = DouControlState::Normal;
-								::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSELEAVE, 0, (LPARAM)pImageObj);
-							}
+							pCtrl->m_iCurState = DouControlState::Normal;
+							pCtrl->DouInvalidateRect();
+							::SendMessage(pThis->m_hWnd, WM_DOUCONTROLMOUSELEAVE, 0, (LPARAM)pCtrl);
 						}
 					}
 				}

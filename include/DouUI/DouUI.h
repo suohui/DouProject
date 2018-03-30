@@ -29,6 +29,7 @@
 #include "DouTextInfoBase.h"
 #include "DouImageInfoBase.h"
 #include "DouImageObject.h"
+#include "DouImageExObject.h"
 #include "DouTextObject.h"
 #include "DouTextLinkObject.h"
 #include "DouButtonObject.h"

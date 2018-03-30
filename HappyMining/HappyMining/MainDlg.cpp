@@ -137,19 +137,17 @@ void CMainDlg::InitDialog()
 
 void CMainDlg::SetCurrencyPanel(String strCurrency, int iPanelTop, DouControlState enumState/* = DouControlState::Normal*/)
 {
-	CDouImageObject *pPanel = GetImageObject(strCurrency + _T(".Panel"));
-	pPanel->EnableMouseEvent(TRUE);
+	CDouImageExObject *pPanel = GetImageExObject(strCurrency + _T(".Panel"));
 	pPanel->SetImageStretch(TRUE);
 	switch (enumState)
 	{
-	case Hover:
-		pPanel->SetImageResID(_T("MainWnd.Bkg.PanelHover"));
-		break;
 	case Press:
-		pPanel->SetImageResID(_T("MainWnd.Bkg.PanelSelect"));
+		pPanel->SetImageNormalResID(_T("MainWnd.Bkg.PanelSelect"));
+		pPanel->SetImageHoverResID(_T("MainWnd.Bkg.PanelSelect"));
 		break;
 	default:
-		pPanel->SetImageResID(_T(""));
+		pPanel->SetImageNormalResID(_T(""));
+		pPanel->SetImageHoverResID(_T("MainWnd.Bkg.PanelHover"));
 		break;
 	}
 	pPanel->SetControlRect(0, iPanelTop, 681, 64);
@@ -162,7 +160,7 @@ void CMainDlg::SetCurrencyLogo(String strCurrency, String strDescription, DouCon
 	if (pLogoImageObject->GetOwnerControl() == NULL)
 	{
 		pLogoImageObject->SetControlRect(m_iCurrencyLeft, 0, 32, 64);
-		pLogoImageObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pLogoImageObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouTextObject* pTextObject = GetTextObject(strCurrency + _T(".Text"));
@@ -170,7 +168,7 @@ void CMainDlg::SetCurrencyLogo(String strCurrency, String strDescription, DouCon
 	if (pTextObject->GetOwnerControl() == NULL)
 	{
 		pTextObject->SetControlRect(m_iCurrencyDescriptionLeft, 12, 116, 32);
-		pTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouTextObject* pDescriptionTextObject = GetTextObject(strCurrency + _T(".Description"));
@@ -179,7 +177,7 @@ void CMainDlg::SetCurrencyLogo(String strCurrency, String strDescription, DouCon
 	{
 		pDescriptionTextObject->SetControlRect(m_iCurrencyDescriptionLeft, 20, 118, 32);
 		pDescriptionTextObject->SetTextPaintStyle(DOU_BOTTOM);
-		pDescriptionTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pDescriptionTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 	switch (enumState)
 	{
@@ -212,7 +210,7 @@ void CMainDlg::SetCurrencyPrice(String strCurrency, String strBalance, String st
 	{
 		pBalanceTextObject->EnableHtmlTag(TRUE);
 		pBalanceTextObject->SetControlRect(m_iPriceLeft, 12, 116, 32);
-		pBalanceTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pBalanceTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouTextObject* pPriceTextObject = GetTextObject(strCurrency + _T(".Price"));
@@ -221,7 +219,7 @@ void CMainDlg::SetCurrencyPrice(String strCurrency, String strBalance, String st
 	{
 		pPriceTextObject->SetControlRect(m_iPriceLeft, 20, 116, 32);
 		pPriceTextObject->SetTextPaintStyle(DOU_BOTTOM);
-		pPriceTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pPriceTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 	switch (enumState)
 	{
@@ -256,7 +254,7 @@ void CMainDlg::SetCurrencySpeed(String strCurrency, String strDaySpeed, String s
 		pDaySpeedTextObject->SetTextFontID(_T("Font14.B"));
 		pDaySpeedTextObject->SetTextColorID(_T("MainPanel.Currency.Major"));
 		pDaySpeedTextObject->SetControlRect(m_iSpeedLeft, 12, 132, 32);
-		pDaySpeedTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pDaySpeedTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouTextObject* pCurSpeedTextObject = GetTextObject(strCurrency + _T(".CurSpeed"));
@@ -267,7 +265,7 @@ void CMainDlg::SetCurrencySpeed(String strCurrency, String strDaySpeed, String s
 		pCurSpeedTextObject->SetTextColorID(_T("MainPanel.Currency.Minor"));
 		pCurSpeedTextObject->SetControlRect(m_iSpeedLeft, 20, 132, 32);
 		pCurSpeedTextObject->SetTextPaintStyle(DOU_BOTTOM);
-		pCurSpeedTextObject->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pCurSpeedTextObject->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	switch (enumState)
@@ -290,7 +288,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	{
 		pStartBtnObj->SetStandardResID(L"MainWnd.Btn.Start");
 		pStartBtnObj->SetControlRect(681 - 34 - 28 * 2 - 15, 18, 28, 28);
-		pStartBtnObj->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pStartBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouButtonObject* pPauseBtnObj = GetButtonObject(strCurrency + L".Btn.Pause");
@@ -298,7 +296,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	{
 		pPauseBtnObj->SetStandardResID(L"MainWnd.Btn.Pause");
 		pPauseBtnObj->SetControlRect(681 - 34 - 28 * 2 - 15, 18, 28, 28);
-		pPauseBtnObj->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pPauseBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	CDouButtonObject* pWidthdrawalBtnObj = GetButtonObject(strCurrency + L".Btn.Withdrawal");
@@ -306,7 +304,7 @@ void CMainDlg::SetCurrencyButton(String strCurrency, DouControlState enumState/*
 	{
 		pWidthdrawalBtnObj->SetStandardResID(L"MainWnd.Btn.Withdrawal");
 		pWidthdrawalBtnObj->SetControlRect(681 - 34 - 28, 18, 28, 28);
-		pWidthdrawalBtnObj->SetOwnerControl(GetImageObject(strCurrency + _T(".Panel")));
+		pWidthdrawalBtnObj->SetOwnerControl(GetImageExObject(strCurrency + _T(".Panel")));
 	}
 
 	switch (enumState)

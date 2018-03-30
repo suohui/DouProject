@@ -1,19 +1,20 @@
 #pragma once
-//Icon图标信息基础类，单一图片信息，例如：按钮上的标识图标、窗体LOGO，
-class CDouImageObject : public CDouControlBase, public CDouImageInfoBase, public CDouImageSingleStateAttr
+//二态图片类，可以响应MouseMove、MouseLeave
+class CDouImageExObject : public CDouControlBase, public CDouImageInfoBase, public CDouImageTwoStateAttr
 {
 public:
-	CDouImageObject(HWND hWndOwner) : CDouControlBase(hWndOwner)
+	CDouImageExObject(HWND hWndOwner) : CDouControlBase(hWndOwner)
 	{
-		m_ControlType = DouControlType::DouImage;
+		m_ControlType = DouControlType::DouImageEx;
 	}
-	~CDouImageObject()
-	{
-	}
-protected:
 	void DrawControl(HDC hdc)
 	{
-		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(GetImageResID());
+		String strResID = GetImageNormalResID();
+		if (DouControlState::Hover == m_iCurState)
+		{
+			strResID = GetImageHoverResID();
+		}
+		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(strResID);
 		if (NULL != pBmpSrcInfo)
 		{
 			if (IsImageStretch())
@@ -29,4 +30,5 @@ protected:
 			}
 		}
 	}
+private:
 };
