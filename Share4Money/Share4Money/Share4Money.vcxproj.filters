@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f4415061-d875-48aa-99b2-477a0098ba1b}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d249564a-8b32-48b0-8702-16b8d9c9e92e}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{34215724-463e-45ac-8cbf-f87ebf6851dd}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
+    </Filter>
+    <Filter Include="DouUI">
+      <UniqueIdentifier>{3288a908-fefb-41ef-a076-cc62a076cc9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DouUI\include">
+      <UniqueIdentifier>{cd979a25-fe5c-4434-abb3-b1990b6c35fe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Share4Money.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\include\stb_image.c">
+      <Filter>DouUI\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\include\XUnzip.cpp">
+      <Filter>DouUI\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\DouBitmapManager.cpp">
+      <Filter>DouUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\DouUI\DouZipUtils.cpp">
+      <Filter>DouUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppGlobalRes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\include\stb_image.h">
+      <Filter>DouUI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\include\XUnzip.h">
+      <Filter>DouUI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouBitmapManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouButtonObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouColorManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouControlBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouControlImpl.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouDlgBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouFontManager.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouImageExObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouImageInfoBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouImageObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouRender.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextInfoBase.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextLinkObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouTextObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouUI.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouUtils.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouZipUtils.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Share4Money.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Share4Money.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
