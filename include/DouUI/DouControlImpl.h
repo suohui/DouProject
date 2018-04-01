@@ -164,9 +164,13 @@ protected:
 					}
 				}
 				break;
+				case DouControlType::DouTextLink:
+				{
+					CDouTextLinkObject* pCtrlTmp = dynamic_cast<CDouTextLinkObject*>(pCtrl);
+					rcCtrl = pCtrlTmp->GetIdealRect();
+				}
 				case DouControlType::DouButton:
 				case DouControlType::DouCheckBox:
-				case DouControlType::DouTextLink:
 				case DouControlType::DouRadioButton:
 					if (rcCtrl.PtInRect(pt))
 					{

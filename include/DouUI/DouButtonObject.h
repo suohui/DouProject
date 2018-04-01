@@ -61,7 +61,7 @@ protected:
 		CRect rcText(CPoint(rcButton.left + m_rcText.left, rcButton.top + m_rcText.top), CSize(m_rcText.Width(), m_rcText.Height()));
 		if (!rcText.IsRectEmpty())
 		{
-			CDouRender::DrawText(hdc, GetText(), rcText, gColorManager.GetColor(strColorResID), strFontResID, GetTextPaintStyle(), FALSE, 0);
+			CDouRender::DouDrawText(hdc, GetText(), rcText, gColorManager.GetColor(strColorResID), strFontResID, GetTextPaintStyle(), FALSE, 0);
 		}
 	}
 private:

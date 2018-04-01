@@ -6,6 +6,11 @@ public:
 	{
 		m_ControlType = DouControlType::DouTextLink;
 	}
+
+	CRect GetIdealRect()
+	{
+		return m_rcIdealRect;
+	}
 protected:
 	void DrawControl(HDC hdc)
 	{
@@ -29,6 +34,9 @@ protected:
 			strFontID = GetTextNormalFontID();
 			break;
 		}
-		CDouRender::DrawText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(strTextColorID), strFontID, GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
+		m_rcIdealRect = GetControlPaintRect();
+		CDouRender::DouDrawText(hdc, GetText(), m_rcIdealRect, gColorManager.GetColor(strTextColorID), strFontID, GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
 	}
+private:
+	CRect m_rcIdealRect;
 };

@@ -62,41 +62,10 @@ public:
 				dc.BitBlt(ptCtrlPaintPoint.x, ptCtrlPaintPoint.y, szDraw.cx, szDraw.cy, memDC, ptBmpPaintPoint.x, ptBmpPaintPoint.y, SRCCOPY);
 			}
 		}
-
-
-
-
-
-
-		//int iMinWidth = min(rcDst.Width(), rcBmpInfo.Width());
-		//int iMinHeight = min(rcDst.Height(), rcBmpInfo.Height());
-		//if (pBmpSrcInfo->bAlpha)
-		//{
-		//	BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-		//	if (bStretch)
-		//	{
-		//		dc.AlphaBlend(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), bf);
-		//	}
-		//	else
-		//	{
-		//		dc.AlphaBlend(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, iMinWidth, iMinHeight, bf);
-		//	}
-		//}
-		//else
-		//{
-		//	if ((rcBmpInfo.Size() == rcDst.Size()) || !bStretch)
-		//	{
-		//		dc.BitBlt(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, SRCCOPY);
-		//	}
-		//	else
-		//	{
-		//		dc.StretchBlt(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), SRCCOPY);
-		//	}
-		//}
 		memDC.SelectBitmap(hOldBmp);
 	}
 	//绘制单行文本
-	static void DrawSingleLineText(HDC hdc, String strText, RECT rcText, COLORREF clrTextColor, String strFontID, UINT uFormat)
+	static void DrawSingleLineText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat)
 	{
 		CDCHandle dc(hdc);
 		dc.SetBkMode(TRANSPARENT);
@@ -131,6 +100,7 @@ public:
 			strPaint = strText;
 
 		CPoint ptPaintPoint = GetControlPaintPoint(rcTextClient, szText, uFormat);
+		::SetRect(&rcText, ptPaintPoint.x, ptPaintPoint.y, ptPaintPoint.x + szText.cx, ptPaintPoint.y + szText.cy);
 		dc.TextOut(ptPaintPoint.x, ptPaintPoint.y, strPaint.c_str(), -1);
 		dc.SelectFont(hOldFont);
 	}
@@ -171,7 +141,7 @@ public:
 		}
 	}
 	//绘制多行文本
-	static void DrawMultiLineText(HDC hdc, String strText, RECT rcText, COLORREF clrTextColor, String strFontID, int iRowHeight)
+	static void DrawMultiLineText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, int iRowHeight)
 	{
 		CDCHandle dc(hdc);
 		dc.SetBkMode(TRANSPARENT);
@@ -215,7 +185,7 @@ public:
 		dc.SelectFont(hOldFont);
 	}
 
-	static void DrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
+	static void DouDrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
 	{
 		if (bMultipLine)
 		{

@@ -28,7 +28,7 @@ protected:
 		}
 		else
 		{
-			CDouRender::DrawText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
+			CDouRender::DouDrawText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
 		}
 	}
 private:

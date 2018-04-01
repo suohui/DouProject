@@ -108,7 +108,7 @@ protected:
 		//»­±êÌâ
 		if (!m_TitleInfoBase.GetText().empty())
 		{
-			CDouRender::DrawText(dcMem, m_TitleInfoBase.GetText(), m_rcTitle, gColorManager.GetColor(m_TitleInfoAttr.GetTextColorID()), m_TitleInfoAttr.GetTextFontID(), m_TitleInfoBase.GetTextPaintStyle(), FALSE, 0);
+			CDouRender::DouDrawText(dcMem, m_TitleInfoBase.GetText(), m_rcTitle, gColorManager.GetColor(m_TitleInfoAttr.GetTextColorID()), m_TitleInfoAttr.GetTextFontID(), m_TitleInfoBase.GetTextPaintStyle(), FALSE, 0);
 		}
 		//»­¿Ø¼þ
 		DrawAllObject(dcMem);
