@@ -4,57 +4,12 @@
 
 CDouBitmapManager::CDouBitmapManager()
 {
-	struct
-	{
-		String strID;
-		DouResIDType enumIDType;
-		String strPathOrOwner;
-		union
-		{
-			int iItemIndex;
-			DouBitmapType enumBmpType;
-		};
-	} arrBmpResInfo[] =
-	{
-		{ _T("MainWnd.Bkg.Titlebar"), DouResIDType::Bitmap, _T("主界面\\标题栏.png"), DouBitmapType::OnlyOne },
-	{ _T("MainWnd.Btn.Menu"), DouResIDType::ItemList, _T("主界面\\菜单.png"), DouBitmapType::ThreeInOne },	//必须先有ItemList，后有SubItem
-	{ _T("MainWnd.Btn.Menu.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 1 },
-	{ _T("MainWnd.Btn.Menu.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 2 },
-	{ _T("MainWnd.Btn.Menu.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Menu"), 3 },
-	{ _T("MainWnd.Btn.Min"), DouResIDType::ItemList, _T("主界面\\最小化.png"), DouBitmapType::ThreeInOne },
-	{ _T("MainWnd.Btn.Min.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 1 },
-	{ _T("MainWnd.Btn.Min.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 2 },
-	{ _T("MainWnd.Btn.Min.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Min"), 3 },
-	{ _T("MainWnd.Btn.Close"), DouResIDType::ItemList, _T("主界面\\关闭.png"), DouBitmapType::ThreeInOne },
-	{ _T("MainWnd.Btn.Close.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 1 },
-	{ _T("MainWnd.Btn.Close.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 2 },
-	{ _T("MainWnd.Btn.Close.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 3 },
-	{ _T("MainWnd.Bkg.PanelHover"), DouResIDType::Bitmap, _T("主界面\\list-hover.png"), DouBitmapType::OnlyOne },
-	{ _T("MainWnd.Bkg.PanelSelect"), DouResIDType::Bitmap, _T("主界面\\list-选中.png"), DouBitmapType::OnlyOne },
-	{ _T("ETC.Normal.Logo"), DouResIDType::Bitmap, _T("主界面\\ETC-logo.png"), DouBitmapType::OnlyOne },
-	{ _T("ZEC.Normal.Logo"), DouResIDType::Bitmap, _T("主界面\\ZEC-logo.png"), DouBitmapType::OnlyOne },
-	{ _T("XMR.Normal.Logo"), DouResIDType::Bitmap, _T("主界面\\XMR-logo.png"), DouBitmapType::OnlyOne },
-	{ _T("MainWnd.Logo"), DouResIDType::Bitmap, _T("主界面\\开心矿场-logo.png"), DouBitmapType::OnlyOne },
-	{ _T("MainWnd.Btn.Start"), DouResIDType::ItemList, _T("主界面\\开始.png"), DouBitmapType::FourInOne },
-	{ _T("MainWnd.Btn.Start.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Start"), 1 },
-	{ _T("MainWnd.Btn.Start.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Start"), 2 },
-	{ _T("MainWnd.Btn.Start.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Start"), 3 },
-	{ _T("MainWnd.Btn.Start.disable"), DouResIDType::SubItem, _T("MainWnd.Btn.Start"), 4 },
-	{ _T("MainWnd.Btn.Pause"), DouResIDType::ItemList, _T("主界面\\暂停.png"), DouBitmapType::ThreeInOne },
-	{ _T("MainWnd.Btn.Pause.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Pause"), 1 },
-	{ _T("MainWnd.Btn.Pause.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Pause"), 2 },
-	{ _T("MainWnd.Btn.Pause.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Pause"), 3 },
-	{ _T("MainWnd.Btn.Withdrawal"), DouResIDType::ItemList, _T("主界面\\提币.png"), DouBitmapType::FourInOne },
-	{ _T("MainWnd.Btn.Withdrawal.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Withdrawal"), 1 },
-	{ _T("MainWnd.Btn.Withdrawal.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Withdrawal"), 2 },
-	{ _T("MainWnd.Btn.Withdrawal.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Withdrawal"), 3 },
-	{ _T("MainWnd.Btn.Withdrawal.disable"), DouResIDType::SubItem, _T("MainWnd.Btn.Withdrawal"), 4 },
-	};
-
 	m_BmpFileInfoMap.clear();
 	m_BmpSrcInfoMap.clear();
 	CDouZipUtils zipUtils(CDouUtils::GetImageZipPath());
-	size_t iLen = sizeof(arrBmpResInfo) / sizeof(arrBmpResInfo[0]);
+	std::vector<TDouBitmapInfo> arrBmpResInfo;
+	CAppResource::GetBitmapResInfo(arrBmpResInfo);
+	size_t iLen = arrBmpResInfo.size();
 	for (size_t iIndex = 0; iIndex < iLen; iIndex++)
 	{
 		DouBitmapFileInfo* pBmpFileInfo = NULL;

@@ -14,19 +14,6 @@ protected:
 	void DrawControl(HDC hdc)
 	{
 		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(GetImageResID());
-		if (NULL != pBmpSrcInfo)
-		{
-			if (IsImageStretch())
-			{
-				CDouRender::DrawImage(hdc, GetControlPaintRect(), pBmpSrcInfo, TRUE);
-			}
-			else
-			{
-				CSize szImage(pBmpSrcInfo->rcItem.Width(), pBmpSrcInfo->rcItem.Height());
-				CRect rcPaintRect = GetControlPaintRect();
-				CPoint ptLeftTop = CDouRender::GetControlPaintPoint(rcPaintRect, szImage, GetImagePaintStyle());
-				CDouRender::DrawImage(hdc, CRect(ptLeftTop, szImage), pBmpSrcInfo, FALSE);
-			}
-		}
+		CDouRender::DrawImage(hdc, GetControlPaintRect(), pBmpSrcInfo, GetImagePaintStyle(), IsImageStretch());
 	}
 };

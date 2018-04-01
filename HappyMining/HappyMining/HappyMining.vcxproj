@@ -242,6 +242,7 @@
     <ClInclude Include="..\..\include\DouUI\include\stb_image.h" />
     <ClInclude Include="..\..\include\DouUI\include\XUnzip.h" />
     <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="AppGlobalRes.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

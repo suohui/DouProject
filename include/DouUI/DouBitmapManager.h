@@ -1,22 +1,6 @@
 #ifndef __DOUBITMAPMANAGER_H__
 #define __DOUBITMAPMANAGER_H__
 #pragma once
-
-//图
-enum DouResIDType
-{
-	Bitmap = 0,
-	ItemList,
-	SubItem	//下标从1开始
-};
-//图片格式
-enum DouBitmapType
-{
-	OnlyOne = -1,
-	TwoInOne = -2,
-	ThreeInOne = -3,
-	FourInOne = -4
-};
 //位图文件信息，需要释放句柄
 struct DouBitmapFileInfo
 {

@@ -5,26 +5,14 @@ class CDouFontManager
 protected:
 	CDouFontManager()
 	{
-		struct FontType
-		{
-			LPCTSTR sID;
-			int  iSize;
-			BOOL bBold;
-			BOOL bUnderLine;
-			BOOL bItalic;
-		} arrFontInfo[] = {
-			{ _T("default.font"), 12, FALSE, FALSE, FALSE },
-		{ _T("Font14"), 14, FALSE, FALSE, FALSE },
-		{ _T("Font14.U"), 14, FALSE, TRUE, FALSE },
-		{ _T("Font14.B"), 14, TRUE, FALSE, FALSE },
-		};
-
 		LOGFONT m_lf;
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &m_lf);
 		m_lf.lfCharSet = DEFAULT_CHARSET;
 		lstrcpy(m_lf.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
 
-		size_t iLen = sizeof(arrFontInfo) / sizeof(arrFontInfo[0]);
+		std::vector<TDouFontInfo> arrFontInfo;
+		CAppResource::GetFontResInfo(arrFontInfo);
+		size_t iLen = arrFontInfo.size();
 		for (size_t i = 0; i < iLen; i++)
 		{
 			m_lf.lfHeight = -arrFontInfo[i].iSize;

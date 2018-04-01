@@ -32,6 +32,34 @@ public:
 	{
 		m_strBkgndColorID = strColorID;
 	}
+	//设置LOGO
+	void SetLogoImageID(String strLogoImageID)
+	{
+		m_strLogoImageID = strLogoImageID;
+	}
+	void SetLogoImageRect(int iLeft, int iTop, int iWidth, int iHeight)
+	{
+		m_rcLogo.SetRect(iLeft, iTop, iLeft + iWidth, iTop + iHeight);
+	}
+	//设置标题
+	void SetTitle(String strTitle)
+	{
+		m_TitleInfoBase.SetText(strTitle);
+		T* pThis = static_cast<T*>(this);
+		::SetWindowText(pThis->m_hWnd, strTitle.c_str());
+	}
+	void SetTitleRect(int iLeft, int iTop, int iWidth, int iHeight)
+	{
+		m_rcTitle.SetRect(iLeft, iTop, iLeft + iWidth, iTop + iHeight);
+	}
+	void SetTitleFontID(String strFontID)
+	{
+		m_TitleInfoAttr.SetTextFontID(strFontID);
+	}
+	void SetTitleColorID(String strColorID)
+	{
+		m_TitleInfoAttr.SetTextColorID(strColorID);
+	}
 	//获取背景图片句柄
 	//HBITMAP GetBkgndHBitmap()
 	//{
@@ -71,6 +99,18 @@ protected:
 		{
 			CDouRender::DrawColor(dcMem, rcClient, gColorManager.GetColor(m_strBkgndColorID));
 		}
+
+		//画LOGO
+		if (!m_strLogoImageID.empty())
+		{
+			CDouRender::DrawImage(dcMem, m_rcLogo, gBmpManager.GetBmpSrcInfo(m_strLogoImageID), DOU_LEFT | DOU_TOP);
+		}
+		//画标题
+		if (!m_TitleInfoBase.GetText().empty())
+		{
+			CDouRender::DrawText(dcMem, m_TitleInfoBase.GetText(), m_rcTitle, gColorManager.GetColor(m_TitleInfoAttr.GetTextColorID()), m_TitleInfoAttr.GetTextFontID(), m_TitleInfoBase.GetTextPaintStyle(), FALSE, 0);
+		}
+		//画控件
 		DrawAllObject(dcMem);
 	}
 	LRESULT OnPaint(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -100,4 +140,12 @@ protected:
 	}
 private:
 	String m_strBkgndColorID;
+	String m_strLogoImageID;
+	String m_strTitle;
+	CRect m_rcLogo;
+	
+	//标题
+	CDouTextInfoBase m_TitleInfoBase;
+	CDouTextSingleStateAttr m_TitleInfoAttr;
+	CRect m_rcTitle;
 };

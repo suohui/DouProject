@@ -20,7 +20,7 @@ public:
 		dc.ExtTextOut(0, 0, ETO_OPAQUE, &rcPaint, NULL, 0, NULL);
 	}
 	//绘制图片
-	static void DrawImage(HDC hdc, const CRect& rcDst, DouBitmapSrcInfo* pBmpSrcInfo, BOOL bStretch = FALSE)
+	static void DrawImage(HDC hdc, const CRect rcDst, DouBitmapSrcInfo* pBmpSrcInfo, UINT uFormatStyle, BOOL bStretch = FALSE)
 	{
 		if (NULL == pBmpSrcInfo)
 		{
@@ -32,31 +32,67 @@ public:
 		HBITMAP hOldBmp = memDC.SelectBitmap(pBmpSrcInfo->hBitmap);
 		CRect rcBmpInfo = pBmpSrcInfo->rcItem;
 
-		int iMinWidth = min(rcDst.Width(), rcBmpInfo.Width());
-		int iMinHeight = min(rcDst.Height(), rcBmpInfo.Height());
-		if (pBmpSrcInfo->bAlpha)
+		BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+		if (bStretch)
 		{
-			BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-			if (bStretch)
+			if (pBmpSrcInfo->bAlpha)
 			{
 				dc.AlphaBlend(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), bf);
-			}
-			else
-			{
-				dc.AlphaBlend(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, iMinWidth, iMinHeight, bf);
-			}
-		}
-		else
-		{
-			if ((rcBmpInfo.Size() == rcDst.Size()) || !bStretch)
-			{
-				dc.BitBlt(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, SRCCOPY);
 			}
 			else
 			{
 				dc.StretchBlt(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), SRCCOPY);
 			}
 		}
+		else
+		{
+			int iMinWidth = min(rcDst.Width(), rcBmpInfo.Width());
+			int iMinHeight = min(rcDst.Height(), rcBmpInfo.Height());
+			CSize szDraw(iMinWidth, iMinHeight);
+			//获取控件的绘制点和绘制矩形
+			CPoint ptCtrlPaintPoint = GetControlPaintPoint(rcDst, szDraw, uFormatStyle);
+			//获取图片的起始点和渲染矩形
+			CPoint ptBmpPaintPoint = GetControlPaintPoint(pBmpSrcInfo->rcItem, szDraw, uFormatStyle);
+			if (pBmpSrcInfo->bAlpha)
+			{
+				dc.AlphaBlend(ptCtrlPaintPoint.x, ptCtrlPaintPoint.y, szDraw.cx, szDraw.cy, memDC, ptBmpPaintPoint.x, ptBmpPaintPoint.y, szDraw.cx, szDraw.cy, bf);
+			}
+			else
+			{
+				dc.BitBlt(ptCtrlPaintPoint.x, ptCtrlPaintPoint.y, szDraw.cx, szDraw.cy, memDC, ptBmpPaintPoint.x, ptBmpPaintPoint.y, SRCCOPY);
+			}
+		}
+
+
+
+
+
+
+		//int iMinWidth = min(rcDst.Width(), rcBmpInfo.Width());
+		//int iMinHeight = min(rcDst.Height(), rcBmpInfo.Height());
+		//if (pBmpSrcInfo->bAlpha)
+		//{
+		//	BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+		//	if (bStretch)
+		//	{
+		//		dc.AlphaBlend(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), bf);
+		//	}
+		//	else
+		//	{
+		//		dc.AlphaBlend(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, iMinWidth, iMinHeight, bf);
+		//	}
+		//}
+		//else
+		//{
+		//	if ((rcBmpInfo.Size() == rcDst.Size()) || !bStretch)
+		//	{
+		//		dc.BitBlt(rcDst.left, rcDst.top, iMinWidth, iMinHeight, memDC, rcBmpInfo.left, rcBmpInfo.top, SRCCOPY);
+		//	}
+		//	else
+		//	{
+		//		dc.StretchBlt(rcDst.left, rcDst.top, rcDst.Width(), rcDst.Height(), memDC, rcBmpInfo.left, rcBmpInfo.top, rcBmpInfo.Width(), rcBmpInfo.Height(), SRCCOPY);
+		//	}
+		//}
 		memDC.SelectBitmap(hOldBmp);
 	}
 	//绘制单行文本
