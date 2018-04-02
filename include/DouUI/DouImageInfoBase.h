@@ -38,12 +38,21 @@ public:
 	{
 		m_strImageResID = strResID;
 	}
+	void SetImageColorID(String strColorID)
+	{
+		m_strImageColorID = strColorID;
+	}
 	String GetImageResID()
 	{
 		return m_strImageResID;
 	}
+	String GetImageColorID()
+	{
+		return m_strImageColorID;
+	}
 private:
 	String m_strImageResID;
+	String m_strImageColorID;
 };
 //¡ΩÃ¨Õº∆¨ Ù–‘
 class CDouImageTwoStateAttr
@@ -60,6 +69,14 @@ public:
 	{
 		m_strHoverResID = strResID;
 	}
+	void SetImageNormalColorID(String strColorID)
+	{
+		m_strNormalColorID = strColorID;
+	}
+	void SetImageHoverColorID(String strColorID)
+	{
+		m_strHoverColorID = strColorID;
+	}
 	String GetImageNormalResID()
 	{
 		return m_strNormalResID;
@@ -68,9 +85,19 @@ public:
 	{
 		return m_strHoverResID;
 	}
+	String GetImageNormalColorID()
+	{
+		return m_strNormalColorID;
+	}
+	String GetImageHoverColorID()
+	{
+		return m_strHoverColorID;
+	}
 private:
 	String m_strNormalResID;
 	String m_strHoverResID;
+	String m_strNormalColorID;
+	String m_strHoverColorID;
 };
 
 //ÀƒÃ¨∞¥≈•Õº∆¨ Ù–‘

@@ -13,6 +13,10 @@ public:
 protected:
 	void DrawControl(HDC hdc)
 	{
+		if (!GetImageColorID().empty())
+		{
+			CDouRender::DrawColor(hdc, GetControlPaintRect(), gColorManager.GetColor(GetImageColorID()));
+		}
 		DouBitmapSrcInfo* pBmpSrcInfo = gBmpManager.GetBmpSrcInfo(GetImageResID());
 		CDouRender::DrawImage(hdc, GetControlPaintRect(), pBmpSrcInfo, GetImagePaintStyle(), IsImageStretch());
 	}

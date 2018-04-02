@@ -111,6 +111,13 @@ public:
 		SetTextPressColorID(strResID + _T(".press"));
 		SetTextDisableColorID(strResID + _T(".disable"));
 	}
+	void SetTextColorID(String strResID)
+	{
+		SetTextNormalColorID(strResID);
+		SetTextHoverColorID(strResID);
+		SetTextPressColorID(strResID);
+		SetTextDisableColorID(strResID);
+	}
 	void SetTextNormalColorID(String strColorID)
 	{
 		m_strTextColorID[0] = strColorID;
@@ -134,6 +141,13 @@ public:
 		SetTextHoverFontID(strResID + _T(".hover"));
 		SetTextPressFontID(strResID + _T(".press"));
 		SetTextDisableFontID(strResID + _T(".disable"));
+	}
+	void SetTextFontID(String strResID)
+	{
+		SetTextNormalFontID(strResID);
+		SetTextHoverFontID(strResID);
+		SetTextPressFontID(strResID);
+		SetTextDisableFontID(strResID);
 	}
 	void SetTextNormalFontID(String strFontID)
 	{
