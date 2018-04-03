@@ -30,7 +30,8 @@ public:
 	{
 		arrBmpResInfo =
 		{
-			{ _T("MainWnd.Logo"), DouResIDType::Bitmap, _T("主界面\\Logo.png"), DouBitmapType::OnlyOne },
+			{ _T("MainWnd.Bkg.ImageText"), DouResIDType::Bitmap, _T("主界面\\图文版.png"), DouBitmapType::OnlyOne },
+			{ _T("MainWnd.Bkg.PureText"), DouResIDType::Bitmap, _T("主界面\\纯文字版.png"), DouBitmapType::OnlyOne },
 			{ _T("MainWnd.Btn.Close"), DouResIDType::ItemList, _T("主界面\\关闭按钮.png"), DouBitmapType::ThreeInOne },
 			{ _T("MainWnd.Btn.Close.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 1 },
 			{ _T("MainWnd.Btn.Close.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 2 },

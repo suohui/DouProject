@@ -147,14 +147,33 @@ public:
 		dc.SetBkMode(TRANSPARENT);
 		dc.SetTextColor(clrTextColor);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
-		{
-			int iLength = strText.length();
-			int iIndex = 0;
-			LPCTSTR lpTmp = strText.c_str();
-			int iTop = 0;
 
-			int iLines = (rcText.bottom - rcText.top) / iRowHeight;
-			for (int i = 0; i < iLines; i++)
+		std::vector<String> vecText;
+		vecText.clear();
+		size_t iOffset = 0;
+		size_t nPos = strText.find(_T("\r\n"), iOffset);
+		while (String::npos != nPos)
+		{
+			String strSubString = strText.substr(iOffset, nPos - iOffset);
+			vecText.push_back(strSubString);
+			iOffset = nPos + 2;
+			nPos = strText.find(_T("\r\n"), iOffset);
+		}
+		String strSubString = strText.substr(iOffset);
+		vecText.push_back(strSubString);
+
+		int iIndex = 0;
+		int iTop = rcText.top;
+		int iLines = (rcText.bottom - rcText.top) / iRowHeight;
+
+		for (size_t i = 0; i < vecText.size(); i++)
+		{
+			String strTextTmp = vecText[i];
+			int iLength = strTextTmp.length();
+			
+			LPCTSTR lpTmp = strTextTmp.c_str();
+			
+			for (int i = iIndex; i < iLines; i++)
 			{
 				//按行来画
 				int iStart = 0;
@@ -170,13 +189,13 @@ public:
 				{
 					iStart--;
 				}
-				dc.TextOut(0, iTop, lpTmp, iStart);
+				dc.TextOut(rcText.left, iTop, lpTmp, iStart);
 				iIndex += iStart;
 				iTop += iRowHeight;
-				lpTmp = strText.c_str() + iIndex;
+				lpTmp = strTextTmp.c_str() + iIndex;
 				if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
 				{
-					DrawSingleLineText(hdc, lpTmp, CRect(0, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
+					DrawSingleLineText(hdc, lpTmp, CRect(rcText.left, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
 					break;
 				}
 			}

@@ -41,20 +41,19 @@ void CMainDlg::InitDialog()
 
 	UIAddChildWindowContainer(m_hWnd);
 
-	SetBkgndColorID(_T("system.white"));
+	//SetBkgndColorID(_T("system.white"));
+	SetBkgndResID(_T("MainWnd.Bkg.PureText"));
 	//创建标题栏
-	CDouImageObject* pTitleBar = GetImageObject(_T("MainWnd.Bkg.TitleBar"));
-	pTitleBar->SetImageColorID(_T("MainWnd.Color.TitleBar"));
-	pTitleBar->SetControlRect(0, 0, iWidth, 36);
-	CDouImageObject* pLogo = GetImageObject(_T("MainWnd.Logo"));
-	pLogo->SetImageResID(_T("MainWnd.Logo"));
-	pLogo->SetControlRect(9,0,23,36);
-	pLogo->SetImagePaintStyle(DOU_LEFT | DOU_VCENTER);
-	pLogo->SetOwnerControl(pTitleBar);
+	CDouTextObject* pTitleObj = GetTextObject(_T("MainWnd.Title"));
+	pTitleObj->SetText(_T("影音游戏见面礼"));
+	pTitleObj->SetControlRect(38,0,300,36);
+	pTitleObj->SetTextColorID(_T("system.white"));
+	pTitleObj->SetTextFontID(_T("Font14"));
+	pTitleObj->SetTextPaintStyle(DOU_LEFT | DOU_VCENTER);
+
 	CDouButtonObject* pBtnClose = GetButtonObject(_T("MainWnd.Btn.Close"));
 	pBtnClose->SetButtonStandardResID(_T("MainWnd.Btn.Close"));
 	pBtnClose->SetControlRect(iWidth - 11 - 10, 13, 10, 10);//SetButtonPaintStyle无效
-	pBtnClose->SetOwnerControl(pTitleBar);
 	//创建正文
 	CDouTextLinkObject* pHyperLink = GetTextLinkObject(_T("MainPanel.Title"));
 	pHyperLink->SetText(_T("恭喜您，迅雷会员免费领。"));
@@ -64,12 +63,13 @@ void CMainDlg::InitDialog()
 	pHyperLink->SetTextFontID(_T("Font18"));
 	
 	pHyperLink = GetTextLinkObject(_T("MainPanel.Content"));
-	pHyperLink->SetText(_T("预创建服务器：《山海关》\n预创建时间：预创建角色，领专属998元游戏礼包，每日抽奖更有机会抽取iphone7"));
-	pHyperLink->SetControlRect(25, 88, iWidth, 266);
-	pHyperLink->SetTextPaintStyle(DT_TOP | DOU_CENTER);
+	pHyperLink->SetText(_T("预创建服务器：《山海关》\r\n预创建时间：预创建角色，\r\n领专属998元游戏礼包，每日抽奖更有机会抽取iphone7"));
+	pHyperLink->SetControlRect(25, 88, iWidth - 50, 266);
+	pHyperLink->SetTextPaintStyle(DT_TOP | DOU_LEFT);
 	pHyperLink->SetTextColorID(_T("MainPanel.TextColor.Content"));
 	pHyperLink->SetTextFontID(_T("Font14"));
 	pHyperLink->SetTextMultiLine(TRUE);
+	pHyperLink->SetTextRowHeight(16);
 
 	//创建控制按钮
 

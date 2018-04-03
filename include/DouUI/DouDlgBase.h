@@ -22,11 +22,11 @@ public:
 		// must be implemented
 		ATLASSERT(FALSE);
 	}
-	////…Ë÷√±≥æ∞Õº∆¨¬∑æ∂
-	//void SetBkgndFilePath(String strFilePath)
-	//{
-	//	m_pBkgndImageInfo = CXKnowRender::LoadImageFromFile(strFilePath);
-	//}
+	//…Ë÷√±≥æ∞Õº∆¨¬∑æ∂
+	void SetBkgndResID(String strResID)
+	{
+		m_strBkgndResID = strResID;
+	}
 	//…Ë÷√±≥æ∞—’…´
 	void SetBkgndColorID(String strColorID)
 	{
@@ -99,6 +99,11 @@ protected:
 		{
 			CDouRender::DrawColor(dcMem, rcClient, gColorManager.GetColor(m_strBkgndColorID));
 		}
+		//ª≠±≥æ∞Õº∆¨
+		if (!m_strBkgndResID.empty())
+		{
+			CDouRender::DrawImage(dcMem, rcClient, gBmpManager.GetBmpSrcInfo(m_strBkgndResID), DOU_LEFT | DOU_TOP, TRUE);
+		}
 
 		//ª≠LOGO
 		if (!m_strLogoImageID.empty())
@@ -139,9 +144,9 @@ protected:
 		return HTCAPTION;
 	}
 private:
-	String m_strBkgndColorID;
-	String m_strLogoImageID;
-	String m_strTitle;
+	String m_strBkgndColorID;	//±≥æ∞—’…´
+	String m_strBkgndResID;		//±≥æ∞Õº∆¨
+	String m_strLogoImageID;	//LOGOÕº∆¨
 	CRect m_rcLogo;
 	
 	//±ÍÃ‚
