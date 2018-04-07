@@ -148,6 +148,7 @@ public:
 		dc.SetTextColor(clrTextColor);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
 
+		//第一步：按\r\n分隔字符串
 		std::vector<String> vecText;
 		vecText.clear();
 		size_t iOffset = 0;
@@ -161,47 +162,128 @@ public:
 		}
 		String strSubString = strText.substr(iOffset);
 		vecText.push_back(strSubString);
-
-		int iIndex = 0;
-		int iTop = rcText.top;
-		int iLines = (rcText.bottom - rcText.top) / iRowHeight;
-
-		for (size_t i = 0; i < vecText.size(); i++)
+		//第二步：按宽度分隔字符串，并计算高度和宽度
+		int iPaintWidth = rcText.right - rcText.left;
+		int iPaintHeight = rcText.bottom - rcText.top;
+		std::vector<String> vecTextLines;
+		vecTextLines.clear();
+		size_t iTextLines = vecText.size();
+		int iHeight = 0;
+		int iRowSpan = 4;
+		for (size_t iIndex = 0; iIndex < iTextLines; iIndex++)
 		{
-			String strTextTmp = vecText[i];
-			int iLength = strTextTmp.length();
-			
-			LPCTSTR lpTmp = strTextTmp.c_str();
-			
-			for (int i = iIndex; i < iLines; i++)
+			String strTextTmp = vecText[iIndex];
+			int iTextLen = strTextTmp.length();
+			CSize szTextTmp;
+			::GetTextExtentPoint32(hdc, strTextTmp.c_str(), iTextLen, &szTextTmp); //获取总宽度
+			if (szTextTmp.cx <= iPaintWidth)
+			{
+				if (iHeight + szTextTmp.cy <= iPaintHeight)
+				{
+					vecTextLines.push_back(strTextTmp);
+					iHeight += szTextTmp.cy + iRowSpan;
+				}
+				else
+					break;
+			}
+			else
 			{
 				//按行来画
-				int iStart = 0;
-				int iLenTmp = 0;
-				SIZE size = { 0, 0 };
-				while (size.cx < rcText.right - rcText.left && iIndex + iLenTmp < iLength)
+				int iEnd = 0;
+				LPCTSTR lpTmp = strTextTmp.c_str();
+				while (iEnd < iTextLen)
 				{
-					iStart++;
-					iLenTmp++;
-					::GetTextExtentPoint32(hdc, lpTmp, iStart, &size);
-				}
-				if (size.cx > rcText.right - rcText.left)
-				{
-					iStart--;
-				}
-				dc.TextOut(rcText.left, iTop, lpTmp, iStart);
-				iIndex += iStart;
-				iTop += iRowHeight;
-				lpTmp = strTextTmp.c_str() + iIndex;
-				if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
-				{
-					DrawSingleLineText(hdc, lpTmp, CRect(rcText.left, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
-					break;
+					SIZE szTmp = { 0, 0 };
+					int iCount = 0;
+					while (szTmp.cx < iPaintWidth && iEnd < iTextLen)
+					{
+						iCount++;
+						::GetTextExtentPoint32(hdc, lpTmp, iCount, &szTmp);
+					}
+					if (szTmp.cx > iPaintWidth)
+					{
+						iCount--;
+					}
+					String str = strTextTmp.substr(iEnd, iCount);
+					if (iHeight + szTextTmp.cy <= iPaintHeight)
+					{
+						vecTextLines.push_back(str);
+						iHeight += szTmp.cy + iRowSpan;
+					}
+					else
+						break;
+					iEnd += iCount;
+					lpTmp = strTextTmp.c_str() + iEnd;
 				}
 			}
 		}
+		if (iHeight > 0)
+		{
+			iHeight -= iRowSpan;
 
+		}
+		//第三步：按格式绘制
+		size_t iLines = vecTextLines.size();
+		int iTop = rcText.top;
+		for (size_t iIndex = 0; iIndex < iLines; iIndex++)
+		{
+			String strTmp = vecTextLines[iIndex];
+			CSize szTmp;
+			::GetTextExtentPoint32(hdc, strTmp.c_str(), strTmp.length(), &szTmp);
+			int iBottom = iTop + szTmp.cy + iRowSpan;
+			if (iBottom <= rcText.bottom)
+			{
+				DrawSingleLineText(hdc, strTmp, CRect(rcText.left, iTop, rcText.right, iTop + szTmp.cy), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
+				iTop = iBottom;
+			}
+			else
+				break;
+			
+		}
 		dc.SelectFont(hOldFont);
+		return;
+
+
+		//int iIndex = 0;
+		//int iTop = rcText.top;
+		//int iLines = (rcText.bottom - rcText.top) / iRowHeight;
+
+		//for (size_t i = 0; i < vecText.size(); i++)
+		//{
+		//	String strTextTmp = vecText[i];
+		//	int iLength = strTextTmp.length();
+		//	
+		//	LPCTSTR lpTmp = strTextTmp.c_str();
+		//	
+		//	for (int i = iIndex; i < iLines; i++)
+		//	{
+		//		//按行来画
+		//		int iStart = 0;
+		//		int iLenTmp = 0;
+		//		SIZE size = { 0, 0 };
+		//		while (size.cx < rcText.right - rcText.left && iIndex + iLenTmp < iLength)
+		//		{
+		//			iStart++;
+		//			iLenTmp++;
+		//			::GetTextExtentPoint32(hdc, lpTmp, iStart, &size);
+		//		}
+		//		if (size.cx > rcText.right - rcText.left)
+		//		{
+		//			iStart--;
+		//		}
+		//		dc.TextOut(rcText.left, iTop, lpTmp, iStart);
+		//		iIndex += iStart;
+		//		iTop += iRowHeight;
+		//		lpTmp = strTextTmp.c_str() + iIndex;
+		//		if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
+		//		{
+		//			DrawSingleLineText(hdc, lpTmp, CRect(rcText.left, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
+		//			break;
+		//		}
+		//	}
+		//}
+
+		//dc.SelectFont(hOldFont);
 	}
 
 	static void DouDrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)

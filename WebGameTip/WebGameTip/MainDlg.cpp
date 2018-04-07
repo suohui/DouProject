@@ -63,8 +63,8 @@ void CMainDlg::InitDialog()
 	pHyperLink->SetTextFontID(_T("Font18"));
 	
 	pHyperLink = GetTextLinkObject(_T("MainPanel.Content"));
-	pHyperLink->SetText(_T("预创建服务器：《山海关》\r\n预创建时间：预创建角色，\r\n领专属998元游戏礼包，每日抽奖更有机会抽取iphone7"));
-	pHyperLink->SetControlRect(25, 88, iWidth - 50, 266);
+	pHyperLink->SetText(_T("预创建服务器：《山海关》\r\n对于共享单车的资金存管问题，网贷平台爱钱帮联合创始人赵静婷认为，在网贷行业发展初期，资金池是导致平台卷款跑路的最大问题，监管部门把银行存管作为合规运营的重要门槛之一，自此网贷资金池的问题得到有效解"));
+	pHyperLink->SetControlRect(25, 88, iWidth - 50, 100);
 	pHyperLink->SetTextPaintStyle(DT_TOP | DOU_LEFT);
 	pHyperLink->SetTextColorID(_T("MainPanel.TextColor.Content"));
 	pHyperLink->SetTextFontID(_T("Font14"));
