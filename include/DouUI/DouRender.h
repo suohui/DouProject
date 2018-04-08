@@ -148,6 +148,7 @@ public:
 		dc.SetTextColor(clrTextColor);
 		HFONT hOldFont = dc.SelectFont(gFontManager.GetFont(strFontID));
 
+		//将字符串保存起来，加快渲染速度，另外，仅Font和Text会影响绘制
 		//第一步：按\r\n分隔字符串
 		std::vector<String> vecText;
 		vecText.clear();
@@ -162,7 +163,7 @@ public:
 		}
 		String strSubString = strText.substr(iOffset);
 		vecText.push_back(strSubString);
-		//第二步：按宽度分隔字符串，并计算高度和宽度
+		//第二步：按宽度分隔字符串
 		int iPaintWidth = rcText.right - rcText.left;
 		int iPaintHeight = rcText.bottom - rcText.top;
 		std::vector<String> vecTextLines;
@@ -178,13 +179,7 @@ public:
 			::GetTextExtentPoint32(hdc, strTextTmp.c_str(), iTextLen, &szTextTmp); //获取总宽度
 			if (szTextTmp.cx <= iPaintWidth)
 			{
-				if (iHeight + szTextTmp.cy <= iPaintHeight)
-				{
-					vecTextLines.push_back(strTextTmp);
-					iHeight += szTextTmp.cy + iRowSpan;
-				}
-				else
-					break;
+				vecTextLines.push_back(strTextTmp);
 			}
 			else
 			{
@@ -205,40 +200,57 @@ public:
 						iCount--;
 					}
 					String str = strTextTmp.substr(iEnd, iCount);
-					if (iHeight + szTextTmp.cy <= iPaintHeight)
-					{
-						vecTextLines.push_back(str);
-						iHeight += szTmp.cy + iRowSpan;
-					}
-					else
-						break;
+					vecTextLines.push_back(str);
 					iEnd += iCount;
 					lpTmp = strTextTmp.c_str() + iEnd;
 				}
 			}
 		}
-		if (iHeight > 0)
-		{
-			iHeight -= iRowSpan;
-
-		}
-		//第三步：按格式绘制
+		//第三步：按行高度和行距处理，注意超过的字符
+		std::vector<String> vecTextLinesNotify;
+		vecTextLinesNotify.clear();
 		size_t iLines = vecTextLines.size();
-		int iTop = rcText.top;
+		int iTextHeight = 0;
 		for (size_t iIndex = 0; iIndex < iLines; iIndex++)
 		{
 			String strTmp = vecTextLines[iIndex];
 			CSize szTmp;
 			::GetTextExtentPoint32(hdc, strTmp.c_str(), strTmp.length(), &szTmp);
-			int iBottom = iTop + szTmp.cy + iRowSpan;
-			if (iBottom <= rcText.bottom)
+			if (iTextHeight + szTmp.cy <= iPaintHeight)
 			{
-				DrawSingleLineText(hdc, strTmp, CRect(rcText.left, iTop, rcText.right, iTop + szTmp.cy), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
-				iTop = iBottom;
+				iTextHeight += szTmp.cy + iRowSpan;
+				vecTextLinesNotify.push_back(strTmp);
 			}
-			else
+			else //超过高度，将剩余字符给最后一个字符串
+			{
+				if (iIndex > 0)
+				{
+					String strLastLine;
+					for (size_t iRemainder = iIndex - 1; iRemainder < iLines; iRemainder++)
+					{
+						strLastLine.append(vecTextLines[iRemainder]);
+					}
+					vecTextLinesNotify[iIndex - 1] = strLastLine;
+				}
 				break;
-			
+			}
+		}
+		if (vecTextLinesNotify.size() >= 2)
+		{
+			iTextHeight -= iRowSpan;
+		}
+
+
+		//第四步：按格式绘制
+		int iTop = rcText.top;
+		iLines = vecTextLinesNotify.size();
+		for (size_t iIndex = 0; iIndex < iLines; iIndex++)
+		{
+			String strTmp = vecTextLinesNotify[iIndex];
+			CSize szTmp;
+			::GetTextExtentPoint32(hdc, strTmp.c_str(), strTmp.length(), &szTmp);
+			DrawSingleLineText(hdc, strTmp, CRect(rcText.left, iTop, rcText.right, iTop + szTmp.cy), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
+			iTop += szTmp.cy + iRowSpan;
 		}
 		dc.SelectFont(hOldFont);
 		return;

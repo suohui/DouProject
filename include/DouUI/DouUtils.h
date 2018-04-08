@@ -64,4 +64,8 @@ public:
 	{
 		return 12;
 	}
+	static int GetTextRowSpan()	//获取多行文本的行距
+	{
+		return 3;
+	}
 };

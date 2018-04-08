@@ -23,6 +23,13 @@ public:
 	{
 		return m_uTextPaintStyle;
 	}
+protected:
+	void CalcTextRect()
+	{
+
+	}
+	int m_iTextHeight;	//文本实际高度
+	std::vector<String> vecTextLines;//最终实际表现出来的多行文本内容，多余的字符以...替代
 private:
 	UINT  m_uTextPaintStyle; //控件绘制样式
 	String m_strText;	//文字内容
@@ -44,6 +51,10 @@ public:
 	{
 		m_iRowHeight = iHeight;
 	}
+	void SetTextRowSpan(int iRowSpan)
+	{
+		m_RowSpan = iRowSpan;
+	}
 	BOOL IsTextMultiLine()
 	{
 		return m_bMultiLine;
@@ -52,8 +63,13 @@ public:
 	{
 		return m_iRowHeight;
 	}
+	int GetTextRowSpan()
+	{
+		return m_RowSpan;
+	}
 private:
 	BOOL m_bMultiLine;	//多行。简单起见，单行默认的绘制样式为DOU_CENTER | DOU_VCENTER
+	int m_RowSpan;	//行距
 	int m_iRowHeight;
 };
 //单态文本属性
