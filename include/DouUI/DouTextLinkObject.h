@@ -35,7 +35,7 @@ protected:
 			break;
 		}
 		m_rcIdealRect = GetControlPaintRect();
-		CDouRender::DouDrawText(hdc, GetText(), m_rcIdealRect, gColorManager.GetColor(strTextColorID), strFontID, GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
+		CDouRender::DouDrawText(hdc, GetText(), m_rcIdealRect, gColorManager.GetColor(strTextColorID), strFontID, GetTextPaintStyle(), IsTextMultiLine(), GetTextRowSpan());
 	}
 private:
 	CRect m_rcIdealRect;

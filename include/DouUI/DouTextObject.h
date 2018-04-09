@@ -24,11 +24,11 @@ protected:
 	{
 		if (m_bHtmlTagEnable)
 		{
-			CDouRender::DrawHtmlText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
+			CDouRender::DrawHtmlText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowSpan());
 		}
 		else
 		{
-			CDouRender::DouDrawText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowHeight());
+			CDouRender::DouDrawText(hdc, GetText(), GetControlPaintRect(), gColorManager.GetColor(GetTextColorID()), GetTextFontID(), GetTextPaintStyle(), IsTextMultiLine(), GetTextRowSpan());
 		}
 	}
 private:

@@ -141,7 +141,7 @@ public:
 		}
 	}
 	//绘制多行文本
-	static void DrawMultiLineText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, int iRowHeight)
+	static void DrawMultiLineText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, int iRowSpan)
 	{
 		CDCHandle dc(hdc);
 		dc.SetBkMode(TRANSPARENT);
@@ -170,7 +170,6 @@ public:
 		vecTextLines.clear();
 		size_t iTextLines = vecText.size();
 		int iHeight = 0;
-		int iRowSpan = 4;
 		for (size_t iIndex = 0; iIndex < iTextLines; iIndex++)
 		{
 			String strTextTmp = vecText[iIndex];
@@ -240,8 +239,10 @@ public:
 			iTextHeight -= iRowSpan;
 		}
 
-
 		//第四步：按格式绘制
+		CPoint ptPaintPoint = GetControlPaintPoint(rcText, CSize(iPaintWidth, iTextHeight), uFormat);
+		::SetRect(&rcText, ptPaintPoint.x, ptPaintPoint.y, ptPaintPoint.x + iPaintWidth, ptPaintPoint.y + iTextHeight);
+
 		int iTop = rcText.top;
 		iLines = vecTextLinesNotify.size();
 		for (size_t iIndex = 0; iIndex < iLines; iIndex++)
@@ -249,60 +250,17 @@ public:
 			String strTmp = vecTextLinesNotify[iIndex];
 			CSize szTmp;
 			::GetTextExtentPoint32(hdc, strTmp.c_str(), strTmp.length(), &szTmp);
-			DrawSingleLineText(hdc, strTmp, CRect(rcText.left, iTop, rcText.right, iTop + szTmp.cy), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
+			DrawSingleLineText(hdc, strTmp, CRect(rcText.left, iTop, rcText.right, iTop + szTmp.cy), clrTextColor, strFontID, uFormat);
 			iTop += szTmp.cy + iRowSpan;
 		}
 		dc.SelectFont(hOldFont);
-		return;
-
-
-		//int iIndex = 0;
-		//int iTop = rcText.top;
-		//int iLines = (rcText.bottom - rcText.top) / iRowHeight;
-
-		//for (size_t i = 0; i < vecText.size(); i++)
-		//{
-		//	String strTextTmp = vecText[i];
-		//	int iLength = strTextTmp.length();
-		//	
-		//	LPCTSTR lpTmp = strTextTmp.c_str();
-		//	
-		//	for (int i = iIndex; i < iLines; i++)
-		//	{
-		//		//按行来画
-		//		int iStart = 0;
-		//		int iLenTmp = 0;
-		//		SIZE size = { 0, 0 };
-		//		while (size.cx < rcText.right - rcText.left && iIndex + iLenTmp < iLength)
-		//		{
-		//			iStart++;
-		//			iLenTmp++;
-		//			::GetTextExtentPoint32(hdc, lpTmp, iStart, &size);
-		//		}
-		//		if (size.cx > rcText.right - rcText.left)
-		//		{
-		//			iStart--;
-		//		}
-		//		dc.TextOut(rcText.left, iTop, lpTmp, iStart);
-		//		iIndex += iStart;
-		//		iTop += iRowHeight;
-		//		lpTmp = strTextTmp.c_str() + iIndex;
-		//		if (iIndex < iLength && i == iLines - 2) //最后一行特殊处理,超出的 就不再画了
-		//		{
-		//			DrawSingleLineText(hdc, lpTmp, CRect(rcText.left, iTop, rcText.right, rcText.bottom), clrTextColor, strFontID, DOU_LEFT | DOU_TOP);
-		//			break;
-		//		}
-		//	}
-		//}
-
-		//dc.SelectFont(hOldFont);
 	}
 
-	static void DouDrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
+	static void DouDrawText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowSpan)
 	{
 		if (bMultipLine)
 		{
-			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, iRowHeight);
+			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, uFormat, iRowSpan);
 		}
 		else
 		{
@@ -310,11 +268,11 @@ public:
 		}
 	}
 	//绘制HTML文本
-	static void DrawHtmlText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowHeight)
+	static void DrawHtmlText(HDC hdc, String strText, RECT& rcText, COLORREF clrTextColor, String strFontID, UINT uFormat, BOOL bMultipLine, int iRowSpan)
 	{
 		if (bMultipLine)
 		{
-			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, iRowHeight);
+			DrawMultiLineText(hdc, strText, rcText, clrTextColor, strFontID, uFormat, iRowSpan);
 		}
 		else
 		{

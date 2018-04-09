@@ -60,10 +60,6 @@ public:
 	{
 		return DOU_LEFT | DOU_TOP;
 	}
-	static int GetTextRowHeight()	//获取多行文本的行高
-	{
-		return 12;
-	}
 	static int GetTextRowSpan()	//获取多行文本的行距
 	{
 		return 3;
