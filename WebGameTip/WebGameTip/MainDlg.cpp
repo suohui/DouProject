@@ -72,7 +72,15 @@ void CMainDlg::InitDialog()
 	pHyperLink->SetTextRowSpan(0);
 
 	//创建控制按钮
-
+	CDouCheckboxObject* pCheckboxObj = GetCheckboxObject(_T("MainWnd.Checkbox.ReceiveIcons"));
+	pCheckboxObj->SetButtonStandardResID(_T("MainWnd.Checkbox.ReceiveIcons"));
+	pCheckboxObj->SetControlRect(200, iHeight - 18, 129, 16);
+	pCheckboxObj->SetCheckboxImageRect(2, 2, 12, 12);
+	pCheckboxObj->SetText(_T("铺游戏图标"));
+	pCheckboxObj->SetTextFontID(_T("default.font"));
+	pCheckboxObj->SetTextColorID(_T("MainPanel.TextColor.Content"));
+	pCheckboxObj->SetTextRect(2 + 12 + 2, 0, 100, 12);
+	pCheckboxObj->SetTextPaintStyle(DOU_LEFT | DOU_TOP);
 }
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -88,8 +96,13 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	CAboutDlg dlg;
-	dlg.DoModal();
+	CDouCheckboxObject* pCheckboxObj = GetCheckboxObject(_T("MainWnd.Checkbox.ReceiveIcons"));
+	BOOL bCheck = pCheckboxObj->IsChecked();
+	if (bCheck)
+	{
+		CAboutDlg dlg;
+		dlg.DoModal();
+	}
 	return 0;
 }
 

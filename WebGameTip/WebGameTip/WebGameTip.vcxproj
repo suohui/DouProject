@@ -224,6 +224,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\DouUI\DouBitmapManager.h" />
     <ClInclude Include="..\..\include\DouUI\DouButtonObject.h" />
+    <ClInclude Include="..\..\include\DouUI\DouCheckboxObject.h" />
     <ClInclude Include="..\..\include\DouUI\DouColorManager.h" />
     <ClInclude Include="..\..\include\DouUI\DouControlBase.h" />
     <ClInclude Include="..\..\include\DouUI\DouControlImpl.h" />

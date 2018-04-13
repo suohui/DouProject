@@ -87,6 +87,7 @@ struct TDouBitmapInfo
 #include "DouTextObject.h"
 #include "DouTextLinkObject.h"
 #include "DouButtonObject.h"
+#include "DouCheckboxObject.h"
 
 #include "DouControlImpl.h"
 #include "DouDlgBase.h"

@@ -36,6 +36,10 @@ public:
 			{ _T("MainWnd.Btn.Close.normal"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 1 },
 			{ _T("MainWnd.Btn.Close.hover"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 2 },
 			{ _T("MainWnd.Btn.Close.press"), DouResIDType::SubItem, _T("MainWnd.Btn.Close"), 3 },
+			{ _T("MainWnd.Checkbox.ReceiveIcons"), DouResIDType::ItemList, _T("主界面\\勾选框.png"), DouBitmapType::ThreeInOne },
+			{ _T("MainWnd.Checkbox.ReceiveIcons.normal"), DouResIDType::SubItem, _T("MainWnd.Checkbox.ReceiveIcons"), 1 },
+			{ _T("MainWnd.Checkbox.ReceiveIcons.hover"), DouResIDType::SubItem, _T("MainWnd.Checkbox.ReceiveIcons"), 2 },
+			{ _T("MainWnd.Checkbox.ReceiveIcons.press"), DouResIDType::SubItem, _T("MainWnd.Checkbox.ReceiveIcons"), 3 },
 		};
 	}
 };

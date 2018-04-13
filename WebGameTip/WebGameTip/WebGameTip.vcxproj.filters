@@ -119,6 +119,9 @@
     <ClInclude Include="AppGlobalRes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\DouUI\DouCheckboxObject.h">
+      <Filter>DouUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WebGameTip.rc">

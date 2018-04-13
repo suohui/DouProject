@@ -85,6 +85,16 @@ public:
 		}
 		return dynamic_cast<CDouButtonObject*>(m_ControlObjectMap[strNewObjID]);
 	}
+	CDouCheckboxObject* GetCheckboxObject(String strObjID)
+	{
+		String strNewObjID = _T("DouCheckbox.") + strObjID;
+		if (m_ControlObjectMap[strNewObjID] == NULL)
+		{
+			T* pThis = static_cast<T*>(this);
+			m_ControlObjectMap[strNewObjID] = new CDouCheckboxObject(pThis->m_hWnd);
+		}
+		return dynamic_cast<CDouCheckboxObject*>(m_ControlObjectMap[strNewObjID]);
+	}
 
 	void DrawAllObject(HDC hDC)
 	{
